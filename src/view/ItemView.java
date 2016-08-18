@@ -23,6 +23,7 @@ import utilities.Utils;
  */
 public class ItemView extends javax.swing.JFrame {
 
+    private static final int KEY_ENTER = 10;
     private static ItemView _instance;
     private EntityManagerFactory emf = Persistence
             .createEntityManagerFactory("jdbc:derby:stockDB;create=truePU");
@@ -35,6 +36,8 @@ public class ItemView extends javax.swing.JFrame {
         initComponents();
         _instance = this;
         hideIdColumn();
+     
+ 
     }
 
     public static ItemView getInstance() {
@@ -133,6 +136,15 @@ public class ItemView extends javax.swing.JFrame {
 
         jLabel1.setText("Nome Articolo");
 
+        descriptionTF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                descriptionTFKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                descriptionTFKeyTyped(evt);
+            }
+        });
+
         jLabel2.setText("Categoria");
 
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, categoryList, categoryCB);
@@ -144,6 +156,12 @@ public class ItemView extends javax.swing.JFrame {
         bindingGroup.addBinding(jComboBoxBinding);
 
         jLabel4.setText("Ubicazione");
+
+        locationTF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                locationTFKeyReleased(evt);
+            }
+        });
 
         jLabel5.setText("Prezzo");
 
@@ -168,14 +186,29 @@ public class ItemView extends javax.swing.JFrame {
         min_quantityTF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         min_quantityTF.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         min_quantityTF.setText("0,0");
+        min_quantityTF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                min_quantityTFKeyReleased(evt);
+            }
+        });
 
         priceTF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         priceTF.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         priceTF.setText("0,00");
+        priceTF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                priceTFKeyReleased(evt);
+            }
+        });
 
         init_quantityTF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         init_quantityTF.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         init_quantityTF.setText("0,00");
+        init_quantityTF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                init_quantityTFKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -416,6 +449,45 @@ public class ItemView extends javax.swing.JFrame {
             utls.showErrorDialog(this, "Nessun dato selezionao per l'aggiornamento!", "Attenzione!");
         }
     }//GEN-LAST:event_jTable1PropertyChange
+
+    private void descriptionTFKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_descriptionTFKeyTyped
+
+    }//GEN-LAST:event_descriptionTFKeyTyped
+
+    private void descriptionTFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_descriptionTFKeyReleased
+        if (evt.getKeyCode() == KEY_ENTER) {
+
+            jButton2ActionPerformed(null);
+        }
+    }//GEN-LAST:event_descriptionTFKeyReleased
+
+    private void locationTFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_locationTFKeyReleased
+        if (evt.getKeyCode() == KEY_ENTER) {
+
+            jButton2ActionPerformed(null);
+        }
+    }//GEN-LAST:event_locationTFKeyReleased
+
+    private void min_quantityTFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_min_quantityTFKeyReleased
+        if (evt.getKeyCode() == KEY_ENTER) {
+
+            jButton2ActionPerformed(null);
+        }
+    }//GEN-LAST:event_min_quantityTFKeyReleased
+
+    private void priceTFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_priceTFKeyReleased
+        if (evt.getKeyCode() == KEY_ENTER) {
+
+            jButton2ActionPerformed(null);
+        }
+    }//GEN-LAST:event_priceTFKeyReleased
+
+    private void init_quantityTFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_init_quantityTFKeyReleased
+        if (evt.getKeyCode() == KEY_ENTER) {
+
+            jButton2ActionPerformed(null);
+        }
+    }//GEN-LAST:event_init_quantityTFKeyReleased
 
     public void refreshJTable() {
         itemList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : itemQuery.getResultList();

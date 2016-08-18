@@ -1,7 +1,7 @@
 ----------------------------------------------------------------
-Thu Aug 18 10:55:56 CEST 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-0156-9cdd-2e75-000006d0e4f8 
-on database directory C:\Users\frastie\Documents\NetBeansProjects\stockmanager\stockDB with class loader sun.misc.Launcher$AppClassLoader@63947c6b 
+Thu Aug 18 17:31:58 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-0156-9e47-c3a6-000006c83e10 
+on database directory C:\Users\frastie\Documents\NetBeansProjects\stockmanager\stockDB with class loader sun.misc.Launcher$AppClassLoader@d716361 
 Loaded from file:/C:/Program%20Files/Java/jdk1.8.0_91/db/lib/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_91-b15
