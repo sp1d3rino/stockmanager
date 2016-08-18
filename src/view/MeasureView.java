@@ -117,6 +117,11 @@ public class MeasureView extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel1.setForeground(java.awt.SystemColor.control);
 
+        descriptionTF.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                descriptionTFMouseClicked(evt);
+            }
+        });
         descriptionTF.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 descriptionTFKeyReleased(evt);
@@ -239,6 +244,7 @@ public class MeasureView extends javax.swing.JFrame {
         if (!result) {
             utls.showErrorDialog(this, "Inserire una descrizione per aggiungere il dato", "Errore inserimento");
         }
+         
         return result;
     }
     
@@ -254,6 +260,7 @@ public class MeasureView extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         Measure m = null;
+                int lastRowIndex = jTable1.getSelectedRow();
         long index = jTable1.getSelectedRow();
         if (index > -1) {
             //get item id
@@ -269,6 +276,13 @@ public class MeasureView extends javax.swing.JFrame {
                     refreshJTable();
                     ItemView iv = ItemView.getInstance();
                     iv.refreshMeasureComboBox();
+                                        //auto select after delete
+                    if (lastRowIndex == jTable1.getRowCount()) {
+                        lastRowIndex--;
+                    }
+                    if (jTable1.getRowCount() > 0) {
+                        jTable1.setRowSelectionInterval(lastRowIndex, lastRowIndex);
+                    }
                 } catch (Exception e) {
                     utls.showErrorDialog(this, "Impossibile eliminare il dato perchè già utilizzato!", "Attenzione!");
                 }
@@ -282,6 +296,7 @@ public class MeasureView extends javax.swing.JFrame {
         if (evt.getKeyCode() == KEY_ENTER) {
 
             jButton2ActionPerformed(null);
+            descriptionTF.selectAll();
         }
     }//GEN-LAST:event_descriptionTFKeyReleased
 
@@ -312,6 +327,10 @@ public class MeasureView extends javax.swing.JFrame {
         iv.refreshCategoryComboBox();
         iv.refreshJTable();
     }//GEN-LAST:event_jTable1PropertyChange
+
+    private void descriptionTFMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_descriptionTFMouseClicked
+        descriptionTF.selectAll();
+    }//GEN-LAST:event_descriptionTFMouseClicked
 
     private void refreshJTable() {
 

@@ -68,7 +68,7 @@ public class CategoryView extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("Categorie prodotto");
+        setTitle("Categorie Articoli");
         setAlwaysOnTop(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -105,6 +105,11 @@ public class CategoryView extends javax.swing.JFrame {
         jPanel2.setBackground(java.awt.SystemColor.inactiveCaption);
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        descriptionTF.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                descriptionTFMouseClicked(evt);
+            }
+        });
         descriptionTF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 descriptionTFActionPerformed(evt);
@@ -353,6 +358,7 @@ public class CategoryView extends javax.swing.JFrame {
         if (evt.getKeyCode() == KEY_ENTER) {
 
             jButton2ActionPerformed(null);
+            descriptionTF.selectAll();
         }
     }//GEN-LAST:event_descriptionTFKeyReleased
 
@@ -364,6 +370,10 @@ public class CategoryView extends javax.swing.JFrame {
         this._instance = null;
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void descriptionTFMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_descriptionTFMouseClicked
+        descriptionTF.selectAll();
+    }//GEN-LAST:event_descriptionTFMouseClicked
 
     /**
      * @param args the command line arguments

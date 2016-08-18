@@ -8,6 +8,7 @@ package utilities;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -70,7 +71,17 @@ public class Utils {
             } else {
                 tf.setBackground(Color.white);
             }
+            
 
+        }
+        else if (o instanceof JComboBox) {
+            JComboBox tf = (JComboBox) o;
+            if (tf.getSelectedItem() == null) {
+                tf.setBackground(Color.red);
+                result = false;
+            } else {
+                tf.setBackground(Color.white);
+            }
         }
 
         return result;

@@ -136,6 +136,11 @@ public class ItemView extends javax.swing.JFrame {
 
         jLabel1.setText("Nome Articolo");
 
+        descriptionTF.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                descriptionTFMouseClicked(evt);
+            }
+        });
         descriptionTF.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 descriptionTFKeyReleased(evt);
@@ -157,6 +162,11 @@ public class ItemView extends javax.swing.JFrame {
 
         jLabel4.setText("Ubicazione");
 
+        locationTF.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                locationTFMouseClicked(evt);
+            }
+        });
         locationTF.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 locationTFKeyReleased(evt);
@@ -186,6 +196,11 @@ public class ItemView extends javax.swing.JFrame {
         min_quantityTF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         min_quantityTF.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         min_quantityTF.setText("0,0");
+        min_quantityTF.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                min_quantityTFMouseClicked(evt);
+            }
+        });
         min_quantityTF.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 min_quantityTFKeyReleased(evt);
@@ -195,6 +210,11 @@ public class ItemView extends javax.swing.JFrame {
         priceTF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         priceTF.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         priceTF.setText("0,00");
+        priceTF.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                priceTFMouseClicked(evt);
+            }
+        });
         priceTF.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 priceTFKeyReleased(evt);
@@ -204,6 +224,11 @@ public class ItemView extends javax.swing.JFrame {
         init_quantityTF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         init_quantityTF.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         init_quantityTF.setText("0,00");
+        init_quantityTF.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                init_quantityTFMouseClicked(evt);
+            }
+        });
         init_quantityTF.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 init_quantityTFKeyReleased(evt);
@@ -374,6 +399,9 @@ public class ItemView extends javax.swing.JFrame {
         result = utls.changeFieldBackground(descriptionTF, result);
         result = utls.changeFieldBackground(init_quantityTF, result);
         result = utls.changeFieldBackground(min_quantityTF, result);
+        result = utls.changeFieldBackground(categoryCB, result);
+        result = utls.changeFieldBackground(measureCB, result);
+        
         result = utls.changeFieldBackground(priceTF, result);
 
         if (!result) {
@@ -490,6 +518,26 @@ public class ItemView extends javax.swing.JFrame {
             jButton2ActionPerformed(null);
         }
     }//GEN-LAST:event_init_quantityTFKeyReleased
+
+    private void descriptionTFMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_descriptionTFMouseClicked
+        descriptionTF.selectAll();
+    }//GEN-LAST:event_descriptionTFMouseClicked
+
+    private void locationTFMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_locationTFMouseClicked
+        locationTF.selectAll();
+    }//GEN-LAST:event_locationTFMouseClicked
+
+    private void min_quantityTFMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_min_quantityTFMouseClicked
+        min_quantityTF.selectAll();
+    }//GEN-LAST:event_min_quantityTFMouseClicked
+
+    private void priceTFMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_priceTFMouseClicked
+        priceTF.selectAll();
+    }//GEN-LAST:event_priceTFMouseClicked
+
+    private void init_quantityTFMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_init_quantityTFMouseClicked
+        init_quantityTF.selectAll();
+    }//GEN-LAST:event_init_quantityTFMouseClicked
 
     public void refreshJTable() {
         itemList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : itemQuery.getResultList();
