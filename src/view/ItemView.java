@@ -366,7 +366,7 @@ public class ItemView extends javax.swing.JFrame {
         refreshJTable();
 
         MainView mv = MainView.getInstance();
-        mv.refreshItemCombo();
+        mv.refreshItemCombo(i,true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private boolean checkInputFields() {
@@ -405,7 +405,7 @@ public class ItemView extends javax.swing.JFrame {
                     em.getTransaction().commit();
                     refreshJTable();
                     MainView mv = MainView.getInstance();
-                    mv.refreshItemCombo();
+                    mv.refreshItemCombo(null,false);
 
                     //auto select after delete
                     if (lastRowIndex == jTable1.getRowCount()) {
@@ -422,6 +422,8 @@ public class ItemView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
+
+    //update data on table
     private void jTable1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jTable1PropertyChange
         if (!evt.getPropertyName().equals("tableCellEditor")) {
             return;
@@ -444,7 +446,7 @@ public class ItemView extends javax.swing.JFrame {
 
             em.getTransaction().commit();
             MainView mv = MainView.getInstance();
-            mv.refreshItemCombo();
+            mv.refreshItemCombo(null,false);
         } else {
             utls.showErrorDialog(this, "Nessun dato selezionao per l'aggiornamento!", "Attenzione!");
         }

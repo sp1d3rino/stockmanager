@@ -1,13 +1,13 @@
 ----------------------------------------------------------------
-Thu Aug 18 17:31:58 CEST 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-0156-9e47-c3a6-000006c83e10 
-on database directory C:\Users\frastie\Documents\NetBeansProjects\stockmanager\stockDB with class loader sun.misc.Launcher$AppClassLoader@d716361 
-Loaded from file:/C:/Program%20Files/Java/jdk1.8.0_91/db/lib/derby.jar
+Thu Aug 18 21:05:07 GMT+01:00 2016:
+Avvio della versione di Derby The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): istanza a816c00e-0156-9f41-d758-0000079e5588
+sulla directory di database C:\Users\sp1d3r\Documents\NetBeansProjects\stockmanager\stockDB con caricatore classi sun.misc.Launcher$AppClassLoader@d716361 
+Caricato da file:/C:/Program%20Files/Java/jdk1.8.0_91/db/lib/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_91-b15
-user.dir=C:\Users\frastie\Documents\NetBeansProjects\stockmanager
-os.name=Windows 7
+user.dir=C:\Users\sp1d3r\Documents\NetBeansProjects\stockmanager
+os.name=Windows 10
 os.arch=amd64
-os.version=6.1
+os.version=10.0
 derby.system.home=null
-Database Class Loader started - derby.database.classpath=''
+Programma di caricamento classe database avviato - derby.database.classpath=''
