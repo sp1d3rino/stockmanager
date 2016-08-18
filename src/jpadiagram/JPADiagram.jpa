@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jpa:entity-mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:java="http://jcp.org/en/jsr/detail?id=270" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jpa="http://java.sun.com/xml/ns/persistence/orm" pkg="entities" v="1.9" sm="false" xs="false" id="_14710253731421" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_2_1.xsd">
+    <jpa:entity xre="false" compositePrimaryKeyClass="ItemPK" abs="false" class="Item" visibile="true" minimized="false" rootElement="_14710253731421" id="_1471025477125">
+        <jpa:ts/>
+        <jpa:hc/>
+        <jpa:eq/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" visibile="true" name="description" id="_147102614595110">
+                <jpa:bv/>
+            </jpa:basic>
+            <jpa:basic attribute-type="double" visibile="true" name="price" id="_147102615253511">
+                <jpa:bv/>
+            </jpa:basic>
+            <jpa:basic attribute-type="String" visibile="true" name="location" id="_147102618059915">
+                <jpa:bv/>
+            </jpa:basic>
+            <jpa:basic attribute-type="double" visibile="true" name="init_quantity" id="_14714200713709">
+                <jpa:bv/>
+            </jpa:basic>
+            <jpa:basic attribute-type="double" visibile="true" name="min_quantity" id="_147142012558310">
+                <jpa:bv/>
+            </jpa:basic>
+            <jpa:many-to-one optional="true" primaryKey="false" connected-entity-id="_1471025478562" visibile="true" name="category" id="_1471040712711183"/>
+            <jpa:many-to-one optional="true" primaryKey="false" connected-entity-id="_1471026112429" visibile="true" name="measure" id="_1471040724918184"/>
+            <jpa:id attribute-type="Long" visibile="true" name="id" id="_14710254771562">
+                <jpa:bv/>
+                <jpa:generated-value strategy="AUTO"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq e="false" name="Item.findAll">
+            <jpa:query>Select e from Item e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Item.findByDescription">
+            <jpa:query>Select i from Item i where i.description=:description</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Item.findByPrice">
+            <jpa:query>Select i from Item i where i.price=:price</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Item.findByCurrentq">
+            <jpa:query>Select i from Item i where i.currentq=:currentq</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Item.findByMinimumq">
+            <jpa:query>Select i from Item i where i.minimumq=:minimumq</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Item.findByIntialq">
+            <jpa:query>Select i from Item i where i.intialq=:intialq</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Item.findByLocation">
+            <jpa:query>Select i from Item i where i.location=:location</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Item.findByMinq">
+            <jpa:query>Select i from Item i where i.minq=:minq</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Item.findByInit_quantity">
+            <jpa:query>Select i from Item i where i.init_quantity=:init_quantity</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Item.findByMin_quantity">
+            <jpa:query>Select i from Item i where i.min_quantity=:min_quantity</jpa:query>
+        </jpa:nq>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="CategoryPK" abs="false" class="Category" visibile="true" minimized="false" rootElement="_14710253731421" id="_1471025478562">
+        <jpa:ts/>
+        <jpa:hc/>
+        <jpa:eq/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" visibile="true" name="description" id="_14710261370879">
+                <jpa:bv/>
+            </jpa:basic>
+            <jpa:id attribute-type="Long" visibile="true" name="id" id="_14710254785624">
+                <jpa:bv/>
+                <jpa:generated-value strategy="AUTO"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq e="false" name="Category.findAll">
+            <jpa:query>Select e from Category e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Category.findByDescription">
+            <jpa:query>Select c from Category c where c.description=:description</jpa:query>
+        </jpa:nq>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="MeasurePK" abs="false" class="Measure" visibile="true" minimized="false" rootElement="_14710253731421" id="_1471026112429">
+        <jpa:ts/>
+        <jpa:hc/>
+        <jpa:eq/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" visibile="true" name="description" id="_14710261223438">
+                <jpa:bv/>
+            </jpa:basic>
+            <jpa:id attribute-type="Long" visibile="true" name="id" id="_14710261124296">
+                <jpa:bv/>
+                <jpa:generated-value strategy="AUTO"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq e="false" name="Measure.findAll">
+            <jpa:query>Select e from Measure e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Measure.findByDescription">
+            <jpa:query>Select m from Measure m where m.description=:description</jpa:query>
+        </jpa:nq>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="StockoperationPK" abs="false" class="Stockoperation" visibile="true" minimized="false" rootElement="_14710253731421" id="_1471026662293">
+        <jpa:ts/>
+        <jpa:hc/>
+        <jpa:eq/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="double" visibile="true" name="currentq" id="_147102672375124">
+                <jpa:bv/>
+            </jpa:basic>
+            <jpa:basic attribute-type="java.util.Date" visibile="true" name="timestamp" id="_14713745872498">
+                <jpa:bv/>
+                <jpa:temporal>DATE</jpa:temporal>
+            </jpa:basic>
+            <jpa:basic attribute-type="double" visibile="true" name="loaded_quantity" id="_147142019781111">
+                <jpa:bv/>
+            </jpa:basic>
+            <jpa:basic attribute-type="double" visibile="true" name="downloaded_quantity" id="_147142022746812">
+                <jpa:bv/>
+            </jpa:basic>
+            <jpa:basic attribute-type="String" visibile="true" name="notes" id="_147142032188413">
+                <jpa:bv/>
+            </jpa:basic>
+            <jpa:many-to-one optional="true" primaryKey="false" connected-entity-id="_1471025477125" visibile="true" name="item" id="_1471040743879185"/>
+            <jpa:id attribute-type="Long" visibile="true" name="id" id="_147102666229421">
+                <jpa:bv/>
+                <jpa:generated-value strategy="AUTO"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq e="false" name="Stockoperation.findAll">
+            <jpa:query>Select e from Stockoperation e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Stockoperation.findByInitialq">
+            <jpa:query>Select s from Stockoperation s where s.initialq=:initialq</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Stockoperation.findByCurrentq">
+            <jpa:query>Select s from Stockoperation s where s.currentq=:currentq</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Stockoperation.findByMinimumq+">
+            <jpa:query>Select s from Stockoperation s where s.minimumq+=:minimumq+</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Stockoperation.findByMinimumq">
+            <jpa:query>Select s from Stockoperation s where s.minimumq=:minimumq</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Stockoperation.findByTimestamp">
+            <jpa:query>Select s from Stockoperation s where s.timestamp=:timestamp</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Stockoperation.findByTimestamp">
+            <jpa:query>Select s from Stockoperation s where s.timestamp=:timestamp</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Stockoperation.findByLoaded_quantity">
+            <jpa:query>Select s from Stockoperation s where s.loaded_quantity=:loaded_quantity</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Stockoperation.findByDownloaded_quantity">
+            <jpa:query>Select s from Stockoperation s where s.downloaded_quantity=:downloaded_quantity</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Stockoperation.findByNotes">
+            <jpa:query>Select s from Stockoperation s where s.notes=:notes</jpa:query>
+        </jpa:nq>
+    </jpa:entity>
+    <jpa:c>
+        <ct>java.util.List</ct>
+        <ct>java.util.Set</ct>
+        <ct>java.util.Map</ct>
+        <ct>java.util.Collection</ct>
+    </jpa:c>
+    <jpa:diagram>
+        <plane elementRef="_14710253731421">
+            <shape elementRef="_1471025477125">
+                <Bounds x="326.0" y="50.0" width="128.0" height="231.0"/>
+            </shape>
+            <shape elementRef="_1471025478562">
+                <Bounds x="501.0" y="50.0" width="147.0" height="92.0"/>
+            </shape>
+            <shape elementRef="_1471026112429">
+                <Bounds x="679.0" y="50.0" width="146.0" height="92.0"/>
+            </shape>
+            <shape elementRef="_1471026662293">
+                <Bounds x="10.0" y="50.0" width="183.0" height="210.0"/>
+            </shape>
+        </plane>
+    </jpa:diagram>
+</jpa:entity-mappings>
