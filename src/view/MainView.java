@@ -463,15 +463,15 @@ public class MainView extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         MeasureView mv = MeasureView.getInstance();
-        mv.setSize(new Dimension(351,320));
-        mv.setLocation(this.getSize().width, this.getLocation().y);
+        mv.setSize(new Dimension(351, 320));
+        mv.setLocation(this.getSize().width - mv.getSize().width/2, this.getLocation().y);
         mv.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         CategoryView cv = CategoryView.getInstance();
-        cv.setSize(new Dimension(351,320));
-        cv.setLocation(this.getSize().width, this.getLocation().y+340);
+        cv.setSize(new Dimension(351, 320));
+        cv.setLocation(this.getSize().width- cv.getSize().width/2, this.getLocation().y + 340);
         cv.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -554,20 +554,17 @@ public class MainView extends javax.swing.JFrame {
         graphPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         graphPanel.setPreferredSize(new Dimension(300, 200));
         graphPanel.removeAll();
-        
-                
-        if(!jCheckBoxMenuItem1.getState()){
+
+        if (!jCheckBoxMenuItem1.getState()) {
             graphPanel.updateUI();
             return;
         }
-            
-        
-        System.out.println("view.MainView.setChartLayout()");
 
+        System.out.println("view.MainView.setChartLayout()");
 
         HashMap<Date, Double> dset = new HashMap<Date, Double>();
         Date d = new Date();
- 
+
         try {
             for (Stockoperation so : stockoperationList) {
 
@@ -602,7 +599,7 @@ public class MainView extends javax.swing.JFrame {
         jTable1.getColumnModel().getColumn(3).setMaxWidth(100);
         jTable1.getColumnModel().getColumn(4).setMinWidth(100);
         jTable1.getColumnModel().getColumn(4).setMaxWidth(200);
-        
+
         jTable1.setAutoCreateRowSorter(true);
     }
 
@@ -628,17 +625,17 @@ public class MainView extends javax.swing.JFrame {
                 em.remove(s);
                 em.getTransaction().commit();
                 refreshJTable();
-
+                //auto select after delete
+                if (lastRowIndex == jTable1.getRowCount()) {
+                    lastRowIndex--;
+                }
+                if (jTable1.getRowCount() > 0) {
+                    jTable1.setRowSelectionInterval(lastRowIndex, lastRowIndex);
+                }
             }
         }
 
-        //auto select after delete
-        if (lastRowIndex == jTable1.getRowCount()) {
-            lastRowIndex--;
-        }
-        if (jTable1.getRowCount() > 0) {
-            jTable1.setRowSelectionInterval(lastRowIndex, lastRowIndex);
-        }
+
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void itemCBItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_itemCBItemStateChanged
@@ -722,15 +719,15 @@ public class MainView extends javax.swing.JFrame {
     }//GEN-LAST:event_downloadTFMouseClicked
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        if (utls.showYesNoDialog(this, "Vuoi uscire dal programma", "Conferma")==0) {
+        if (utls.showYesNoDialog(this, "Vuoi uscire dal programma", "Conferma") == 0) {
             System.exit(0);
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jCheckBoxMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem1ActionPerformed
-       
-            setChartLayout();
-        
+
+        setChartLayout();
+
     }//GEN-LAST:event_jCheckBoxMenuItem1ActionPerformed
     private double calculateRemainQuantity(Item item) {
 
