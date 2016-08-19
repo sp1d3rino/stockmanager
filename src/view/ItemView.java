@@ -39,6 +39,10 @@ public class ItemView extends javax.swing.JFrame {
      
  
     }
+    
+    private void setTableLayout(){
+        jTable1.setAutoCreateRowSorter(true);
+    }
 
     public static ItemView getInstance() {
 

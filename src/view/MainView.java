@@ -602,6 +602,8 @@ public class MainView extends javax.swing.JFrame {
         jTable1.getColumnModel().getColumn(3).setMaxWidth(100);
         jTable1.getColumnModel().getColumn(4).setMinWidth(100);
         jTable1.getColumnModel().getColumn(4).setMaxWidth(200);
+        
+        jTable1.setAutoCreateRowSorter(true);
     }
 
 
