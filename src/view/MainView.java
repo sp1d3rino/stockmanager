@@ -463,11 +463,15 @@ public class MainView extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         MeasureView mv = MeasureView.getInstance();
+        mv.setSize(new Dimension(351,320));
+        mv.setLocation(this.getSize().width, this.getLocation().y);
         mv.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         CategoryView cv = CategoryView.getInstance();
+        cv.setSize(new Dimension(351,320));
+        cv.setLocation(this.getSize().width, this.getLocation().y+340);
         cv.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 

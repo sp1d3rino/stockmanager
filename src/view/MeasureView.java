@@ -77,6 +77,7 @@ public class MeasureView extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Tipi di Unità di Misura");
         setAlwaysOnTop(true);
+        setPreferredSize(new java.awt.Dimension(351, 319));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
