@@ -8,8 +8,12 @@ package view;
 import entities.Item;
 import entities.Stockoperation;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -46,7 +50,6 @@ public class MainView extends javax.swing.JFrame {
         initComponents();
         _instance = this;
         setTableLayout();
-        setChartLayout();
 
     }
 
@@ -267,7 +270,6 @@ public class MainView extends javax.swing.JFrame {
         remainqTF.setEditable(false);
         remainqTF.setBackground(java.awt.SystemColor.inactiveCaption);
         remainqTF.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        remainqTF.setForeground(new java.awt.Color(0, 153, 0));
         remainqTF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         remainqTF.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         remainqTF.setText("0,00");
@@ -288,18 +290,18 @@ public class MainView extends javax.swing.JFrame {
         graphPanel.setLayout(graphPanelLayout);
         graphPanelLayout.setHorizontalGroup(
             graphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 92, Short.MAX_VALUE)
+            .addGap(0, 289, Short.MAX_VALUE)
         );
         graphPanelLayout.setVerticalGroup(
             graphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 111, Short.MAX_VALUE)
+            .addGap(0, 182, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -314,7 +316,10 @@ public class MainView extends javax.swing.JFrame {
                                 .addComponent(loadTF, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(umLabel))
-                            .addComponent(itemCB, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(itemCB, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(categoryLabel))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(downloadTF, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -342,12 +347,8 @@ public class MainView extends javax.swing.JFrame {
                             .addComponent(remainqTF, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(umLabel3)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(categoryLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(graphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(217, 217, 217))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addComponent(graphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton4, jButton5});
@@ -358,10 +359,13 @@ public class MainView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(graphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(itemCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1)
-                            .addComponent(categoryLabel))
+                            .addComponent(categoryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -386,18 +390,14 @@ public class MainView extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(remainqTF, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(umLabel3)))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(graphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(notesTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton5))
+                                    .addComponent(umLabel3))))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(notesTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addGap(28, 28, 28)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton5))))
                 .addContainerGap())
         );
 
@@ -411,10 +411,10 @@ public class MainView extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -444,7 +444,7 @@ public class MainView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void changeRemainTFColor(double remain) {
-        System.out.println("view.MainView.remainqTFActionPerformed()");
+
         Item item = (Item) itemCB.getSelectedItem();
         double rq = remain;
         if (item.getMin_quantity() > rq) {
@@ -455,7 +455,6 @@ public class MainView extends javax.swing.JFrame {
             remainqTF.setToolTipText(null);
             notesTF.setText("");
         }
-        
 
     }
 
@@ -485,11 +484,11 @@ public class MainView extends javax.swing.JFrame {
         em.persist(s);
         em.getTransaction().commit();
         refreshJTable();
-        
+
         //reset fields
         loadTF.setText("0,00");
         downloadTF.setText("0,00");
-        
+
     }
 
     private boolean checkInputFields() {
@@ -515,21 +514,32 @@ public class MainView extends javax.swing.JFrame {
     }
 
     private void setChartLayout() {
-        /*
-        graphPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        graphPanel.add(utls.createPieChart("test",0,0));
-         */
+        System.out.println("view.MainView.setChartLayout()");
         graphPanel.setBackground(jPanel1.getBackground());
-        /*       Item item = (Item) itemCB.getSelectedItem();
+        graphPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        graphPanel.setPreferredSize(new Dimension(300,200));
+        graphPanel.removeAll();
+
+        HashMap<Date, Double> dset = new HashMap<Date, Double>();
+        Date d = new Date();
+        // SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
         try {
-            graphPanel.removeAll();
-            graphPanel.setBackground(jPanel1.getBackground());
-            //    utls.createBarChart(graphPanel,item.getDescription(),item.getInit_quantity(),calculateRemainQuantity(item));
-            graphPanel.add(utls.createPieChart(item.getDescription(), item.getInit_quantity(), calculateRemainQuantity(item)));
-            graphPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-            graphPanel.invalidate();
+            for (Stockoperation so : stockoperationList) {
+
+                d = so.getTimestamp();
+                if (dset.containsKey(d)) {
+                    dset.put(d, dset.get(d) + so.getDownloaded_quantity());
+                } else {
+                    dset.put(d, so.getDownloaded_quantity());
+                }
+            }
+
+            utls.createTSChart(graphPanel, "Trend Uscite", dset);
         } catch (Exception e) {
-        }*/
+            System.out.println("Error during chart building");
+            e.printStackTrace();
+        }
+
     }
 
     private void setTableLayout() {
@@ -585,7 +595,7 @@ public class MainView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void itemCBItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_itemCBItemStateChanged
-         
+
     }//GEN-LAST:event_itemCBItemStateChanged
 
     private void jTable1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jTable1PropertyChange
@@ -627,8 +637,10 @@ public class MainView extends javax.swing.JFrame {
     private void itemCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCBActionPerformed
 
         //to avoid to reload the table with the call setTableFilter...
-        if (evt.toString().endsWith("selectedItemReminder=]"))return;
-         
+        if (evt.toString().endsWith("selectedItemReminder=]")) {
+            return;
+        }
+
         Item i = (Item) itemCB.getSelectedItem();
         if (i != null) {
             umLabel.setText(i.getMeasure().getDescription());
@@ -649,9 +661,8 @@ public class MainView extends javax.swing.JFrame {
 
         loadTF.setText("0,0");
         downloadTF.setText("0,0");
-        setChartLayout();
-         
-        
+
+
     }//GEN-LAST:event_itemCBActionPerformed
 
     private void loadTFMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loadTFMouseClicked
@@ -662,7 +673,7 @@ public class MainView extends javax.swing.JFrame {
         downloadTF.selectAll();
     }//GEN-LAST:event_downloadTFMouseClicked
     private double calculateRemainQuantity(Item item) {
-        System.out.println("view.MainView.calculateRemainQuantity()");
+
         entityManager.refresh(item);
         initialqTF.setText(String.valueOf(item.getInit_quantity()).replace(".", ","));
 
@@ -685,6 +696,7 @@ public class MainView extends javax.swing.JFrame {
     private void setTableFilter(Item i) {
 
         stockoperationQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT s FROM Stockoperation s WHERE s.item=:item").setParameter("item", i);
+
         refreshJTable();
     }
 
@@ -713,9 +725,9 @@ public class MainView extends javax.swing.JFrame {
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         setTableLayout();
-
-        calculateRemainQuantity((Item) itemCB.getSelectedItem());
         setChartLayout();
+        calculateRemainQuantity((Item) itemCB.getSelectedItem());
+
     }
 
     /**
