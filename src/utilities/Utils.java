@@ -8,12 +8,14 @@ package utilities;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
@@ -64,6 +66,11 @@ public class Utils {
                 title,
                 JOptionPane.ERROR_MESSAGE);
 
+    }
+    
+    public int showYesNoDialog(Component c, String msg,String title){
+        return JOptionPane.showConfirmDialog(c, msg,title,JOptionPane.YES_NO_OPTION);
+    
     }
 
     public boolean changeFieldBackground(Object o, boolean result) {
@@ -177,16 +184,18 @@ public class Utils {
     /**
      * TimeSeries Chart
      */
-    public void createTSChart(JPanel panel, String title , HashMap<java.util.Date, Double> dset) {
+    public void createTSChart(JPanel panel, String title, HashMap<java.util.Date, Double> dset) {
         XYDataset dataset = createTSDataset(dset);
-        JFreeChart chart = createTSChart(title,dataset);
+        JFreeChart chart = createTSChart(title, dataset);
+
         ChartPanel chartPanel = new ChartPanel(chart);
-     
+        chart.setBackgroundPaint(panel.getBackground()); 
         chartPanel.setPreferredSize(panel.getPreferredSize());
+
         chartPanel.setMouseZoomable(true, false);
         panel.add(chartPanel);
         chartPanel.updateUI();
-        
+
     }
 
     private XYDataset createTSDataset(HashMap<java.util.Date, Double> dset) {

@@ -102,6 +102,11 @@ public class MainView extends javax.swing.JFrame {
         initialqTF = new javax.swing.JFormattedTextField();
         remainqTF = new javax.swing.JFormattedTextField();
         graphPanel = new javax.swing.JPanel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Lista movimenti articoli");
@@ -290,7 +295,7 @@ public class MainView extends javax.swing.JFrame {
         graphPanel.setLayout(graphPanelLayout);
         graphPanelLayout.setHorizontalGroup(
             graphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 289, Short.MAX_VALUE)
+            .addGap(0, 335, Short.MAX_VALUE)
         );
         graphPanelLayout.setVerticalGroup(
             graphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -301,7 +306,7 @@ public class MainView extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -347,7 +352,7 @@ public class MainView extends javax.swing.JFrame {
                             .addComponent(remainqTF, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(umLabel3)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(graphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -401,6 +406,33 @@ public class MainView extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jMenu1.setText("File");
+
+        jMenuItem1.setText("Esci");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Impostazioni");
+
+        jCheckBoxMenuItem1.setSelected(true);
+        jCheckBoxMenuItem1.setText("Grafici");
+        jCheckBoxMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jCheckBoxMenuItem1);
+
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -414,7 +446,7 @@ public class MainView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -514,15 +546,24 @@ public class MainView extends javax.swing.JFrame {
     }
 
     private void setChartLayout() {
-        System.out.println("view.MainView.setChartLayout()");
         graphPanel.setBackground(jPanel1.getBackground());
         graphPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        graphPanel.setPreferredSize(new Dimension(300,200));
+        graphPanel.setPreferredSize(new Dimension(300, 200));
         graphPanel.removeAll();
+        
+                
+        if(!jCheckBoxMenuItem1.getState()){
+            graphPanel.updateUI();
+            return;
+        }
+            
+        
+        System.out.println("view.MainView.setChartLayout()");
+
 
         HashMap<Date, Double> dset = new HashMap<Date, Double>();
         Date d = new Date();
-        // SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
+ 
         try {
             for (Stockoperation so : stockoperationList) {
 
@@ -650,6 +691,7 @@ public class MainView extends javax.swing.JFrame {
             categoryLabel.setText(i.getCategory().getDescription());
             initialqTF.setText(String.valueOf(i.getInit_quantity()).replace(".", ","));
             setTableFilter(i);
+            refreshJTable();
         } else {
             umLabel.setText("...");
             umLabel1.setText("...");
@@ -672,6 +714,18 @@ public class MainView extends javax.swing.JFrame {
     private void downloadTFMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_downloadTFMouseClicked
         downloadTF.selectAll();
     }//GEN-LAST:event_downloadTFMouseClicked
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        if (utls.showYesNoDialog(this, "Vuoi uscire dal programma", "Conferma")==0) {
+            System.exit(0);
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jCheckBoxMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem1ActionPerformed
+       
+            setChartLayout();
+        
+    }//GEN-LAST:event_jCheckBoxMenuItem1ActionPerformed
     private double calculateRemainQuantity(Item item) {
 
         entityManager.refresh(item);
@@ -694,10 +748,7 @@ public class MainView extends javax.swing.JFrame {
     }
 
     private void setTableFilter(Item i) {
-
         stockoperationQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT s FROM Stockoperation s WHERE s.item=:item").setParameter("item", i);
-
-        refreshJTable();
     }
 
     public void refreshJTable() {
@@ -780,12 +831,17 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
