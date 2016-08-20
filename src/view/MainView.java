@@ -5,15 +5,19 @@
  */
 package view;
 
+import com.sun.webkit.graphics.WCGraphicsManager;
 import entities.Item;
 import entities.Stockoperation;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -39,6 +43,11 @@ public class MainView extends javax.swing.JFrame {
     private static final int COLUMN_NUMBER_LOAD = 2;
     private static final int COLUMN_NUMBER_DOWNLOAD = 3;
 
+    private MeasureView mv = null;
+    private CategoryView cv = null;
+    private ItemView iv = null;
+
+    private Utils utls = Utils.getInstance();
     private EntityManagerFactory emf = Persistence
             .createEntityManagerFactory("jdbc:derby:stockDB;create=truePU");
     EntityManager em = emf.createEntityManager();
@@ -49,6 +58,7 @@ public class MainView extends javax.swing.JFrame {
     public MainView() {
         initComponents();
         _instance = this;
+        loadSettings();
         setTableLayout();
 
     }
@@ -58,6 +68,32 @@ public class MainView extends javax.swing.JFrame {
             _instance = new MainView();
         }
         return _instance;
+    }
+
+    private void loadSettings() {
+
+        try {
+
+            utls.loadSettings();
+        } catch (IOException ex) {
+            Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        /* graph settings */
+        jCheckBoxMenuItem1.setState(Boolean.parseBoolean(utls.SettingsFile.get(utls.CHART_SETTING)));
+        setChartLayout();
+
+        /* restate opened windows */
+        if (utls.SettingsFile.get(utls.ITEM_WINDOW_OPENED_SETTING) != null && Boolean.parseBoolean(utls.SettingsFile.get(utls.ITEM_WINDOW_OPENED_SETTING))) {
+            jButton1ActionPerformed(null);
+        }
+        if (utls.SettingsFile.get(utls.MEASURE_WINDOW_OPENED_SETTING) != null && Boolean.parseBoolean(utls.SettingsFile.get(utls.MEASURE_WINDOW_OPENED_SETTING))) {
+            jButton2ActionPerformed(null);
+        }
+        if (utls.SettingsFile.get(utls.CATEGORY_WINDOW_OPENED_SETTING) != null && Boolean.parseBoolean(utls.SettingsFile.get(utls.CATEGORY_WINDOW_OPENED_SETTING))) {
+            jButton3ActionPerformed(null);
+        }
+
     }
 
     /**
@@ -108,7 +144,7 @@ public class MainView extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Lista movimenti articoli");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -340,12 +376,10 @@ public class MainView extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(32, 32, 32)
+                                    .addGap(41, 41, 41)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jButton5)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addGap(9, 9, 9)
-                                            .addComponent(notesTF, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(notesTF, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)))
@@ -420,7 +454,6 @@ public class MainView extends javax.swing.JFrame {
 
         jMenu2.setText("Impostazioni");
 
-        jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("Grafici");
         jCheckBoxMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -457,21 +490,21 @@ public class MainView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ItemView iv = ItemView.getInstance();
+        iv = ItemView.getInstance();
         iv.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        MeasureView mv = MeasureView.getInstance();
+        mv = MeasureView.getInstance();
         mv.setSize(new Dimension(351, 320));
-        mv.setLocation(this.getSize().width - mv.getSize().width/2, this.getLocation().y);
+        mv.setLocation(this.getSize().width - mv.getSize().width / 2, this.getLocation().y);
         mv.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        CategoryView cv = CategoryView.getInstance();
+        cv = CategoryView.getInstance();
         cv.setSize(new Dimension(351, 320));
-        cv.setLocation(this.getSize().width- cv.getSize().width/2, this.getLocation().y + 340);
+        cv.setLocation(this.getSize().width - cv.getSize().width / 2, this.getLocation().y + 340);
         cv.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -605,6 +638,21 @@ public class MainView extends javax.swing.JFrame {
 
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        if (utls.showYesNoDialog(this, "Vuoi uscire dal programma", "Confermare chiusura") == 0) {
+            utls.SettingsFile.put(utls.ITEM_WINDOW_OPENED_SETTING, String.valueOf(iv != null && iv.isVisible()));
+            utls.SettingsFile.put(utls.CATEGORY_WINDOW_OPENED_SETTING, String.valueOf(cv != null && cv.isVisible()));
+            utls.SettingsFile.put(utls.MEASURE_WINDOW_OPENED_SETTING, String.valueOf(mv != null && mv.isVisible() ));
+            
+            
+            try {
+                utls.saveSettings();
+            } catch (IOException ex) {
+                Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            System.exit(0);
+        }
+        
 
 
     }//GEN-LAST:event_formWindowClosing
@@ -719,13 +767,11 @@ public class MainView extends javax.swing.JFrame {
     }//GEN-LAST:event_downloadTFMouseClicked
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        if (utls.showYesNoDialog(this, "Vuoi uscire dal programma", "Conferma") == 0) {
-            System.exit(0);
-        }
+        formWindowClosing(null);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jCheckBoxMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem1ActionPerformed
-
+        utls.SettingsFile.put(utls.CHART_SETTING, String.valueOf(jCheckBoxMenuItem1.getState()));
         setChartLayout();
 
     }//GEN-LAST:event_jCheckBoxMenuItem1ActionPerformed
@@ -860,5 +906,5 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JLabel umLabel3;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
-    private Utils utls = Utils.getInstance();
+
 }

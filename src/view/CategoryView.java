@@ -69,14 +69,13 @@ public class CategoryView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Categorie Articoli");
-        setAlwaysOnTop(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
         });
 
-        jPanel1.setBackground(java.awt.SystemColor.inactiveCaption);
+        jPanel1.setBackground(java.awt.SystemColor.activeCaption);
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jButton1.setText("Chiudi");
@@ -102,7 +101,7 @@ public class CategoryView extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel2.setBackground(java.awt.SystemColor.inactiveCaption);
+        jPanel2.setBackground(java.awt.SystemColor.activeCaption);
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         descriptionTF.addMouseListener(new java.awt.event.MouseAdapter() {

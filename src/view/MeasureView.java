@@ -76,7 +76,6 @@ public class MeasureView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Tipi di Unità di Misura");
-        setAlwaysOnTop(true);
         setPreferredSize(new java.awt.Dimension(351, 319));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
@@ -87,7 +86,7 @@ public class MeasureView extends javax.swing.JFrame {
             }
         });
 
-        jPanel2.setBackground(java.awt.SystemColor.inactiveCaption);
+        jPanel2.setBackground(java.awt.SystemColor.activeCaption);
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jButton1.setText("Chiudi");
@@ -114,7 +113,7 @@ public class MeasureView extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel1.setBackground(java.awt.SystemColor.inactiveCaption);
+        jPanel1.setBackground(java.awt.SystemColor.activeCaption);
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel1.setForeground(java.awt.SystemColor.control);
 

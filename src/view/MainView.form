@@ -67,7 +67,6 @@
           <SubComponents>
             <MenuItem class="javax.swing.JCheckBoxMenuItem" name="jCheckBoxMenuItem1">
               <Properties>
-                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Grafici"/>
               </Properties>
               <Events>
@@ -80,7 +79,7 @@
     </Menu>
   </NonVisualComponents>
   <Properties>
-    <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="defaultCloseOperation" type="int" value="0"/>
     <Property name="title" type="java.lang.String" value="Lista movimenti articoli"/>
   </Properties>
   <SyntheticProperties>
@@ -330,13 +329,10 @@
                                           <Component id="jLabel5" alignment="1" min="-2" pref="95" max="-2" attributes="0"/>
                                           <Component id="jButton4" linkSize="2" alignment="0" min="-2" pref="95" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="jButton5" linkSize="2" min="-2" max="-2" attributes="0"/>
-                                          <Group type="102" attributes="0">
-                                              <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
-                                              <Component id="notesTF" min="-2" pref="427" max="-2" attributes="0"/>
-                                          </Group>
+                                          <Component id="notesTF" min="-2" pref="427" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
