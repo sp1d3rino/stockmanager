@@ -57,6 +57,7 @@ public class Utils {
     private static final File configFile = new File("config.properties");
     private static Utils _instance;
     public static final String CHART_SETTING = "CHART_SETTING";
+    public static final String QUIT_SETTING = "QUIT_SETTING";
     public static final String ITEM_WINDOW_OPENED_SETTING = "ITEM_WINDOW_OPENED_SETTING";
     public static final String MEASURE_WINDOW_OPENED_SETTING = "MEASURE_WINDOW_OPENED_SETTING";
     public static final String CATEGORY_WINDOW_OPENED_SETTING = "CATEGORY_WINDOW_OPENED_SETTING";

@@ -6,12 +6,14 @@
 package view;
 
 import com.sun.webkit.graphics.WCGraphicsManager;
+
 import entities.Item;
 import entities.Stockoperation;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,6 +23,7 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.swing.CellEditor;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -31,6 +34,7 @@ import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.util.Rotation;
+
 import utilities.Utils;
 
 /**
@@ -42,6 +46,7 @@ public class MainView extends javax.swing.JFrame {
     private static MainView _instance;
     private static final int COLUMN_NUMBER_LOAD = 2;
     private static final int COLUMN_NUMBER_DOWNLOAD = 3;
+    private static final int COLUMN_DATE = 4;
 
     private MeasureView mv = null;
     private CategoryView cv = null;
@@ -79,6 +84,8 @@ public class MainView extends javax.swing.JFrame {
             Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        /* Quit Confirmation */
+        jCheckBoxMenuItem2.setState(Boolean.parseBoolean(utls.SettingsFile.get(utls.QUIT_SETTING)));
         /* graph settings */
         jCheckBoxMenuItem1.setState(Boolean.parseBoolean(utls.SettingsFile.get(utls.CHART_SETTING)));
         setChartLayout();
@@ -143,6 +150,7 @@ public class MainView extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
+        jCheckBoxMenuItem2 = new javax.swing.JCheckBoxMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Lista movimenti articoli");
@@ -462,6 +470,15 @@ public class MainView extends javax.swing.JFrame {
         });
         jMenu2.add(jCheckBoxMenuItem1);
 
+        jCheckBoxMenuItem2.setSelected(true);
+        jCheckBoxMenuItem2.setText("Quit confirmation");
+        jCheckBoxMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jCheckBoxMenuItem2);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -523,6 +540,27 @@ public class MainView extends javax.swing.JFrame {
             remainqTF.setForeground(Color.BLACK);
             remainqTF.setToolTipText(null);
             notesTF.setText("");
+        }
+
+    }
+
+    public void setDateInCell(Date dt) {
+        int selectedRow = -1;
+        int selectedColumn = -1;
+
+        selectedRow = jTable1.getSelectedRow();
+        selectedColumn = jTable1.getSelectedColumn();
+
+        if (selectedColumn > -1 && selectedRow > -1) {
+            jTable1.setValueAt(dt, selectedRow, selectedColumn);
+        }
+        CellEditor cellEditor = jTable1.getCellEditor();
+        if (cellEditor != null) {
+            if (cellEditor.getCellEditorValue() != null) {
+                cellEditor.stopCellEditing();
+            } else {
+                cellEditor.cancelCellEditing();
+            }
         }
 
     }
@@ -633,29 +671,34 @@ public class MainView extends javax.swing.JFrame {
         jTable1.getColumnModel().getColumn(4).setMinWidth(100);
         jTable1.getColumnModel().getColumn(4).setMaxWidth(200);
 
+        // auto storting
         jTable1.setAutoCreateRowSorter(true);
+        
+        //set terminateEditOnFocusLost on
+        jTable1.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
     }
 
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        if (utls.showYesNoDialog(this, "Vuoi uscire dal programma", "Confermare chiusura") == 0) {
-            utls.SettingsFile.put(utls.ITEM_WINDOW_OPENED_SETTING, String.valueOf(iv != null && iv.isVisible()));
-            utls.SettingsFile.put(utls.CATEGORY_WINDOW_OPENED_SETTING, String.valueOf(cv != null && cv.isVisible()));
-            utls.SettingsFile.put(utls.MEASURE_WINDOW_OPENED_SETTING, String.valueOf(mv != null && mv.isVisible() ));
-            
-            
-            try {
-                utls.saveSettings();
-            } catch (IOException ex) {
-                Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        utls.SettingsFile.put(utls.ITEM_WINDOW_OPENED_SETTING, String.valueOf(iv != null && iv.isVisible()));
+        utls.SettingsFile.put(utls.CATEGORY_WINDOW_OPENED_SETTING, String.valueOf(cv != null && cv.isVisible()));
+        utls.SettingsFile.put(utls.MEASURE_WINDOW_OPENED_SETTING, String.valueOf(mv != null && mv.isVisible()));
 
+        try {
+            utls.saveSettings();
+        } catch (IOException ex) {
+            Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (jCheckBoxMenuItem2.getState() && utls.showYesNoDialog(this, "Vuoi uscire dal programma", "Confermare chiusura") == 0) {
             System.exit(0);
         }
-        
+        if (!jCheckBoxMenuItem2.getState()) {
+            System.exit(0);
+        }
 
 
     }//GEN-LAST:event_formWindowClosing
+
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         int lastRowIndex = jTable1.getSelectedRow();
@@ -691,13 +734,28 @@ public class MainView extends javax.swing.JFrame {
     }//GEN-LAST:event_itemCBItemStateChanged
 
     private void jTable1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jTable1PropertyChange
+        //check if the cell is in editing mode
         if (!evt.getPropertyName().equals("tableCellEditor")) {
             return;
         }
+
         int index = jTable1.getSelectedRow();
 
-        if (index > -1) {
+        //show CustomDataPicker if there is a data editing 
+        if (index > -1 && evt.getOldValue() == null && jTable1.getSelectedColumn() == COLUMN_DATE) {
 
+            CustomDatePicker cdp = CustomDatePicker.getInstance();
+            cdp.setLocation((int) jTable1.getLocationOnScreen().getX(), (int) jTable1.getLocationOnScreen().getY());
+            Date dt = (Date)jTable1.getValueAt(jTable1.getSelectedRow(), jTable1.getSelectedColumn());
+            
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+             String  dateStr[]=   df.format(dt).toString().split("/");
+            cdp.setOldDate(dateStr[0], dateStr[1], dateStr[2]);
+            cdp.setVisible(true);
+            
+        }
+        if (index > -1 && evt.getOldValue() != null) {
+            System.out.println("Modified Row!");
             //get table id
             long id = (long) jTable1.getValueAt(index, 0);
             Stockoperation stockOp;
@@ -711,8 +769,6 @@ public class MainView extends javax.swing.JFrame {
 
             em.getTransaction().commit();
             calculateRemainQuantity((Item) itemCB.getSelectedItem());
-        } else {
-            utls.showErrorDialog(this, "Nessun dato selezionao per l'aggiornamento!", "Attenzione!");
         }
 
     }//GEN-LAST:event_jTable1PropertyChange
@@ -775,6 +831,10 @@ public class MainView extends javax.swing.JFrame {
         setChartLayout();
 
     }//GEN-LAST:event_jCheckBoxMenuItem1ActionPerformed
+
+    private void jCheckBoxMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem2ActionPerformed
+        utls.SettingsFile.put(utls.QUIT_SETTING, String.valueOf(jCheckBoxMenuItem2.getState()));
+    }//GEN-LAST:event_jCheckBoxMenuItem2ActionPerformed
     private double calculateRemainQuantity(Item item) {
 
         entityManager.refresh(item);
@@ -881,6 +941,7 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
