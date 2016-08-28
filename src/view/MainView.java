@@ -47,6 +47,7 @@ public class MainView extends javax.swing.JFrame {
     private static final int COLUMN_NUMBER_LOAD = 2;
     private static final int COLUMN_NUMBER_DOWNLOAD = 3;
     private static final int COLUMN_DATE = 4;
+    private static final int KEY_ENTER = 10;
 
     private MeasureView mv = null;
     private CategoryView cv = null;
@@ -301,6 +302,11 @@ public class MainView extends javax.swing.JFrame {
                 loadTFMouseClicked(evt);
             }
         });
+        loadTF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                loadTFKeyPressed(evt);
+            }
+        });
 
         downloadTF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         downloadTF.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -308,6 +314,11 @@ public class MainView extends javax.swing.JFrame {
         downloadTF.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 downloadTFMouseClicked(evt);
+            }
+        });
+        downloadTF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                downloadTFKeyPressed(evt);
             }
         });
 
@@ -471,7 +482,7 @@ public class MainView extends javax.swing.JFrame {
         jMenu2.add(jCheckBoxMenuItem1);
 
         jCheckBoxMenuItem2.setSelected(true);
-        jCheckBoxMenuItem2.setText("Quit confirmation");
+        jCheckBoxMenuItem2.setText("Conferma la chiusura");
         jCheckBoxMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBoxMenuItem2ActionPerformed(evt);
@@ -527,6 +538,7 @@ public class MainView extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         insertNewTrack((Item) itemCB.getSelectedItem(), false);
+        
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void changeRemainTFColor(double remain) {
@@ -534,10 +546,10 @@ public class MainView extends javax.swing.JFrame {
         Item item = (Item) itemCB.getSelectedItem();
         double rq = remain;
         if (item.getMin_quantity() > rq) {
-            remainqTF.setForeground(Color.RED);
+            remainqTF.setBackground(Color.red);
             remainqTF.setToolTipText("Attenzione, valore al di sotto della quantità minima!");
         } else {
-            remainqTF.setForeground(Color.BLACK);
+            remainqTF.setBackground(jPanel1.getBackground());
             remainqTF.setToolTipText(null);
             notesTF.setText("");
         }
@@ -673,7 +685,7 @@ public class MainView extends javax.swing.JFrame {
 
         // auto storting
         jTable1.setAutoCreateRowSorter(true);
-        
+
         //set terminateEditOnFocusLost on
         jTable1.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
     }
@@ -746,13 +758,13 @@ public class MainView extends javax.swing.JFrame {
 
             CustomDatePicker cdp = CustomDatePicker.getInstance();
             cdp.setLocation((int) jTable1.getLocationOnScreen().getX(), (int) jTable1.getLocationOnScreen().getY());
-            Date dt = (Date)jTable1.getValueAt(jTable1.getSelectedRow(), jTable1.getSelectedColumn());
-            
+            Date dt = (Date) jTable1.getValueAt(jTable1.getSelectedRow(), jTable1.getSelectedColumn());
+
             DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-             String  dateStr[]=   df.format(dt).toString().split("/");
+            String dateStr[] = df.format(dt).toString().split("/");
             cdp.setOldDate(dateStr[0], dateStr[1], dateStr[2]);
             cdp.setVisible(true);
-            
+
         }
         if (index > -1 && evt.getOldValue() != null) {
             System.out.println("Modified Row!");
@@ -835,6 +847,18 @@ public class MainView extends javax.swing.JFrame {
     private void jCheckBoxMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem2ActionPerformed
         utls.SettingsFile.put(utls.QUIT_SETTING, String.valueOf(jCheckBoxMenuItem2.getState()));
     }//GEN-LAST:event_jCheckBoxMenuItem2ActionPerformed
+
+    private void downloadTFKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_downloadTFKeyPressed
+        if (evt.getKeyCode() == KEY_ENTER) {
+            jButton4ActionPerformed(null);
+        }
+    }//GEN-LAST:event_downloadTFKeyPressed
+
+    private void loadTFKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_loadTFKeyPressed
+        if (evt.getKeyCode() == KEY_ENTER) {
+            jButton4ActionPerformed(null);
+        }
+    }//GEN-LAST:event_loadTFKeyPressed
     private double calculateRemainQuantity(Item item) {
 
         entityManager.refresh(item);
