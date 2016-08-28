@@ -57,15 +57,7 @@ import org.jfree.util.Rotation;
  */
 public class Utils {
 
-    
-    public HashMap<String,String> SettingsFile=null;
-    private static final File configFile = new File("config.properties");
     private static Utils _instance;
-    public static final String CHART_SETTING = "CHART_SETTING";
-    public static final String QUIT_SETTING = "QUIT_SETTING";
-    public static final String ITEM_WINDOW_OPENED_SETTING = "ITEM_WINDOW_OPENED_SETTING";
-    public static final String MEASURE_WINDOW_OPENED_SETTING = "MEASURE_WINDOW_OPENED_SETTING";
-    public static final String CATEGORY_WINDOW_OPENED_SETTING = "CATEGORY_WINDOW_OPENED_SETTING";
     
     
     public Utils() {
@@ -87,45 +79,9 @@ public class Utils {
 
     
     
-    public void loadSettings() throws FileNotFoundException, IOException {
-        // init settings HashMap
-        SettingsFile =  new HashMap<String, String>();
+   
 
-        
-        try {
-            FileReader reader = new FileReader(configFile);
-            Properties props = new Properties();
-            props.load(reader);
-             Enumeration e = props.propertyNames();
-             while (e.hasMoreElements()){
-                 String key = (String) e.nextElement();
-                 SettingsFile.put(key,props.getProperty(key));
-             }
-
-            reader.close();
-        } catch (FileNotFoundException ex) {
-            throw ex;
-        } catch (IOException ex) {
-            throw ex;
-        }
-         
-    }
-
-    public void saveSettings() throws FileNotFoundException, IOException {
-
-        try {
-            Properties props = new Properties();
-            for(String k:SettingsFile.keySet())
-                props.setProperty(k, SettingsFile.get(k));
-            FileWriter writer = new FileWriter(configFile);
-            props.store(writer,"program settings");
-            writer.close();
-        } catch (FileNotFoundException ex) {
-            throw ex;
-        } catch (IOException ex) {
-            throw ex;
-        }
-    }
+ 
 
     public void showErrorDialog(Component c, String msg, String title) {
         JOptionPane.showMessageDialog(c, msg,

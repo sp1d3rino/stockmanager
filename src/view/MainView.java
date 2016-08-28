@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.prefs.Preferences;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -44,11 +45,22 @@ import utilities.Utils;
 public class MainView extends javax.swing.JFrame {
 
     private static MainView _instance;
+
+    /* menu variables */
+    public static final String CHART_SETTING = "CHART_SETTING";
+    public static final String QUIT_SETTING = "QUIT_SETTING";
+    public static final String ITEM_WINDOW_OPENED_SETTING = "ITEM_WINDOW_OPENED_SETTING";
+    public static final String MEASURE_WINDOW_OPENED_SETTING = "MEASURE_WINDOW_OPENED_SETTING";
+    public static final String CATEGORY_WINDOW_OPENED_SETTING = "CATEGORY_WINDOW_OPENED_SETTING";
+
+
+    /*table variables */
     private static final int COLUMN_NUMBER_LOAD = 2;
     private static final int COLUMN_NUMBER_DOWNLOAD = 3;
     private static final int COLUMN_DATE = 4;
-    private static final int KEY_ENTER = 10;
 
+    private static final int KEY_ENTER = 10;
+    private Preferences menuPrefs = Preferences.userNodeForPackage(view.MainView.class);
     private MeasureView mv = null;
     private CategoryView cv = null;
     private ItemView iv = null;
@@ -78,33 +90,28 @@ public class MainView extends javax.swing.JFrame {
 
     private void loadSettings() {
 
-        try {
-
-            utls.loadSettings();
-        } catch (IOException ex) {
-            Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
         /* Quit Confirmation */
-        jCheckBoxMenuItem2.setState(Boolean.parseBoolean(utls.SettingsFile.get(utls.QUIT_SETTING)));
+        String defaultValue = "true";
+        jCheckBoxMenuItem2.setState(Boolean.parseBoolean(menuPrefs.get(QUIT_SETTING, defaultValue)));
+
         /* graph settings */
-        jCheckBoxMenuItem1.setState(Boolean.parseBoolean(utls.SettingsFile.get(utls.CHART_SETTING)));
+        defaultValue = "false";
+        jCheckBoxMenuItem1.setState(Boolean.parseBoolean(menuPrefs.get(CHART_SETTING, defaultValue)));
         setChartLayout();
 
         /* restate opened windows */
-        if (utls.SettingsFile.get(utls.ITEM_WINDOW_OPENED_SETTING) != null && Boolean.parseBoolean(utls.SettingsFile.get(utls.ITEM_WINDOW_OPENED_SETTING))) {
+        defaultValue = "false";
+        if (Boolean.parseBoolean(menuPrefs.get(ITEM_WINDOW_OPENED_SETTING, defaultValue))) {
             jButton1ActionPerformed(null);
         }
-        if (utls.SettingsFile.get(utls.MEASURE_WINDOW_OPENED_SETTING) != null && Boolean.parseBoolean(utls.SettingsFile.get(utls.MEASURE_WINDOW_OPENED_SETTING))) {
+        if (Boolean.parseBoolean(menuPrefs.get(MEASURE_WINDOW_OPENED_SETTING, defaultValue))) {
             jButton2ActionPerformed(null);
         }
-        if (utls.SettingsFile.get(utls.CATEGORY_WINDOW_OPENED_SETTING) != null && Boolean.parseBoolean(utls.SettingsFile.get(utls.CATEGORY_WINDOW_OPENED_SETTING))) {
+        if (Boolean.parseBoolean(menuPrefs.get(CATEGORY_WINDOW_OPENED_SETTING, defaultValue))) {
             jButton3ActionPerformed(null);
         }
 
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -635,7 +642,7 @@ public class MainView extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         insertNewTrack((Item) itemCB.getSelectedItem(), false);
-        
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void changeRemainTFColor(double remain) {
@@ -706,7 +713,6 @@ public class MainView extends javax.swing.JFrame {
         downloadTF.setText("0,00");
         loadSlider.setValue(0);
         downloadSlider.setValue(0);
-                
 
     }
 
@@ -760,7 +766,7 @@ public class MainView extends javax.swing.JFrame {
             }
 
             utls.createTSChart(graphPanel, "Trend Uscite", dset);
-            
+
         } catch (Exception e) {
             System.out.println("Error during chart building");
             e.printStackTrace();
@@ -793,19 +799,17 @@ public class MainView extends javax.swing.JFrame {
 
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        utls.SettingsFile.put(utls.ITEM_WINDOW_OPENED_SETTING, String.valueOf(iv != null && iv.isVisible()));
-        utls.SettingsFile.put(utls.CATEGORY_WINDOW_OPENED_SETTING, String.valueOf(cv != null && cv.isVisible()));
-        utls.SettingsFile.put(utls.MEASURE_WINDOW_OPENED_SETTING, String.valueOf(mv != null && mv.isVisible()));
 
-        try {
-            utls.saveSettings();
-        } catch (IOException ex) {
-            Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        /* save settings */
+        menuPrefs.put(QUIT_SETTING, String.valueOf(jCheckBoxMenuItem2.getState()));
+        menuPrefs.put(CHART_SETTING, String.valueOf(jCheckBoxMenuItem1.getState()));
+        menuPrefs.put(ITEM_WINDOW_OPENED_SETTING, String.valueOf(iv != null && iv.isVisible()));
+        menuPrefs.put(CATEGORY_WINDOW_OPENED_SETTING, String.valueOf(cv != null && cv.isVisible()));
+        menuPrefs.put(MEASURE_WINDOW_OPENED_SETTING, String.valueOf(mv != null && mv.isVisible()));
+
         if (jCheckBoxMenuItem2.getState() && utls.showYesNoDialog(this, "Vuoi uscire dal programma", "Confermare chiusura") == 0) {
             System.exit(0);
-        }
-        if (!jCheckBoxMenuItem2.getState()) {
+        } else if (!jCheckBoxMenuItem2.getState()) {
             System.exit(0);
         }
 
@@ -940,13 +944,13 @@ public class MainView extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jCheckBoxMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem1ActionPerformed
-        utls.SettingsFile.put(utls.CHART_SETTING, String.valueOf(jCheckBoxMenuItem1.getState()));
+
         setChartLayout();
 
     }//GEN-LAST:event_jCheckBoxMenuItem1ActionPerformed
 
     private void jCheckBoxMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem2ActionPerformed
-        utls.SettingsFile.put(utls.QUIT_SETTING, String.valueOf(jCheckBoxMenuItem2.getState()));
+
     }//GEN-LAST:event_jCheckBoxMenuItem2ActionPerformed
 
     private void downloadTFKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_downloadTFKeyPressed
@@ -965,17 +969,17 @@ public class MainView extends javax.swing.JFrame {
 
     private void downloadTFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_downloadTFFocusLost
         //check whether the inserted value is greater than max source of slider1
-        int max= Integer.valueOf(downloadTF.getText());
-        if ( max> downloadSlider.getMaximum()){
+        int max = Integer.valueOf(downloadTF.getText());
+        if (max > downloadSlider.getMaximum()) {
             downloadSlider.setMaximum(max);
             downloadSliderMaxLabel.setText(String.valueOf(max));
         }
     }//GEN-LAST:event_downloadTFFocusLost
 
     private void loadTFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_loadTFFocusLost
-                //check whether the inserted value is greater than max source of slider1
-        int max= Integer.valueOf(loadTF.getText());
-        if ( max> loadSlider.getMaximum()){
+        //check whether the inserted value is greater than max source of slider1
+        int max = Integer.valueOf(loadTF.getText());
+        if (max > loadSlider.getMaximum()) {
             loadSlider.setMaximum(max);
             loadSliderMaxLabel.setText(String.valueOf(max));
         }
