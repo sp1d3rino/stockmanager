@@ -3,6 +3,8 @@
 //
 package entities;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
@@ -10,12 +12,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 /**
  * @author frastie
  */
 @Entity
 public class Item implements Serializable {
+
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,6 +42,7 @@ public class Item implements Serializable {
     @Basic
     private double min_quantity;
 
+
     @ManyToOne(targetEntity = Category.class)
     private Category category;
 
@@ -47,7 +54,9 @@ public class Item implements Serializable {
     }
 
     public void setId(Long id) {
+        Long oldId = this.id;
         this.id = id;
+        changeSupport.firePropertyChange("id", oldId, id);
     }
 
     public String getDescription() {
@@ -55,7 +64,9 @@ public class Item implements Serializable {
     }
 
     public void setDescription(String description) {
+        String oldDescription = this.description;
         this.description = description;
+        changeSupport.firePropertyChange("description", oldDescription, description);
     }
 
     public double getPrice() {
@@ -63,7 +74,9 @@ public class Item implements Serializable {
     }
 
     public void setPrice(double price) {
+        double oldPrice = this.price;
         this.price = price;
+        changeSupport.firePropertyChange("price", oldPrice, price);
     }
 
     public String getLocation() {
@@ -71,7 +84,9 @@ public class Item implements Serializable {
     }
 
     public void setLocation(String location) {
+        String oldLocation = this.location;
         this.location = location;
+        changeSupport.firePropertyChange("location", oldLocation, location);
     }
 
     public double getInit_quantity() {
@@ -79,7 +94,9 @@ public class Item implements Serializable {
     }
 
     public void setInit_quantity(double init_quantity) {
+        double oldInit_quantity = this.init_quantity;
         this.init_quantity = init_quantity;
+        changeSupport.firePropertyChange("init_quantity", oldInit_quantity, init_quantity);
     }
 
     public double getMin_quantity() {
@@ -87,7 +104,9 @@ public class Item implements Serializable {
     }
 
     public void setMin_quantity(double min_quantity) {
+        double oldMin_quantity = this.min_quantity;
         this.min_quantity = min_quantity;
+        changeSupport.firePropertyChange("min_quantity", oldMin_quantity, min_quantity);
     }
 
     public Category getCategory() {
@@ -95,7 +114,9 @@ public class Item implements Serializable {
     }
 
     public void setCategory(Category category) {
+        Category oldCategory = this.category;
         this.category = category;
+        changeSupport.firePropertyChange("category", oldCategory, category);
     }
 
     public Measure getMeasure() {
@@ -103,11 +124,21 @@ public class Item implements Serializable {
     }
 
     public void setMeasure(Measure measure) {
+        Measure oldMeasure = this.measure;
         this.measure = measure;
+        changeSupport.firePropertyChange("measure", oldMeasure, measure);
     }
 
     @Override
     public String toString() {
         return description;
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
 }

@@ -3,6 +3,8 @@
 //
 package entities;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -13,12 +15,16 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  * @author frastie
  */
 @Entity
 public class Stockoperation implements Serializable {
+
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -48,7 +54,9 @@ public class Stockoperation implements Serializable {
     }
 
     public void setId(Long id) {
+        Long oldId = this.id;
         this.id = id;
+        changeSupport.firePropertyChange("id", oldId, id);
     }
 
     public double getCurrentq() {
@@ -56,7 +64,9 @@ public class Stockoperation implements Serializable {
     }
 
     public void setCurrentq(double currentq) {
+        double oldCurrentq = this.currentq;
         this.currentq = currentq;
+        changeSupport.firePropertyChange("currentq", oldCurrentq, currentq);
     }
 
     public Date getTimestamp() {
@@ -64,7 +74,9 @@ public class Stockoperation implements Serializable {
     }
 
     public void setTimestamp(Date timestamp) {
+        Date oldTimestamp = this.timestamp;
         this.timestamp = timestamp;
+        changeSupport.firePropertyChange("timestamp", oldTimestamp, timestamp);
     }
 
     public double getLoaded_quantity() {
@@ -72,7 +84,9 @@ public class Stockoperation implements Serializable {
     }
 
     public void setLoaded_quantity(double loaded_quantity) {
+        double oldLoaded_quantity = this.loaded_quantity;
         this.loaded_quantity = loaded_quantity;
+        changeSupport.firePropertyChange("loaded_quantity", oldLoaded_quantity, loaded_quantity);
     }
 
     public double getDownloaded_quantity() {
@@ -80,7 +94,9 @@ public class Stockoperation implements Serializable {
     }
 
     public void setDownloaded_quantity(double downloaded_quantity) {
+        double oldDownloaded_quantity = this.downloaded_quantity;
         this.downloaded_quantity = downloaded_quantity;
+        changeSupport.firePropertyChange("downloaded_quantity", oldDownloaded_quantity, downloaded_quantity);
     }
 
     public String getNotes() {
@@ -88,7 +104,9 @@ public class Stockoperation implements Serializable {
     }
 
     public void setNotes(String notes) {
+        String oldNotes = this.notes;
         this.notes = notes;
+        changeSupport.firePropertyChange("notes", oldNotes, notes);
     }
 
     public Item getItem() {
@@ -96,7 +114,17 @@ public class Stockoperation implements Serializable {
     }
 
     public void setItem(Item item) {
+        Item oldItem = this.item;
         this.item = item;
+        changeSupport.firePropertyChange("item", oldItem, item);
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
 
 }
