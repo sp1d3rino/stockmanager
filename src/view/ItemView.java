@@ -8,6 +8,7 @@ package view;
 import entities.Category;
 import entities.Item;
 import entities.Measure;
+import java.util.ArrayList;
 import java.util.Observer;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -15,6 +16,7 @@ import javax.persistence.Persistence;
 import javax.swing.Icon;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableColumnModel;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import utilities.Utils;
 
 /**
@@ -36,11 +38,11 @@ public class ItemView extends javax.swing.JFrame {
         initComponents();
         _instance = this;
         hideIdColumn();
-     
- 
+
+        initAutocomplete();
     }
-    
-    private void setTableLayout(){
+
+    private void setTableLayout() {
         jTable1.setAutoCreateRowSorter(true);
     }
 
@@ -371,6 +373,19 @@ public class ItemView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private ArrayList<String> getLocations() {
+
+        ArrayList<String> al = new ArrayList<>();
+
+        for (Item i : itemList) {
+            if (!al.contains(i.getLocation())) 
+                al.add(i.getLocation());
+            
+        }
+
+        return al;
+    }
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this._instance = null;
         this.setVisible(false);
@@ -397,7 +412,8 @@ public class ItemView extends javax.swing.JFrame {
         refreshJTable();
 
         MainView mv = MainView.getInstance();
-        mv.refreshItemCombo(i,true);
+        mv.refreshItemCombo(i, true);
+        initAutocomplete();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private boolean checkInputFields() {
@@ -407,7 +423,7 @@ public class ItemView extends javax.swing.JFrame {
         result = utls.changeFieldBackground(min_quantityTF, result);
         result = utls.changeFieldBackground(categoryCB, result);
         result = utls.changeFieldBackground(measureCB, result);
-        
+
         result = utls.changeFieldBackground(priceTF, result);
 
         if (!result) {
@@ -439,7 +455,7 @@ public class ItemView extends javax.swing.JFrame {
                     em.getTransaction().commit();
                     refreshJTable();
                     MainView mv = MainView.getInstance();
-                    mv.refreshItemCombo(null,false);
+                    mv.refreshItemCombo(null, false);
 
                     //auto select after delete
                     if (lastRowIndex == jTable1.getRowCount()) {
@@ -455,7 +471,6 @@ public class ItemView extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
-
 
     //update data on table
     private void jTable1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jTable1PropertyChange
@@ -480,7 +495,7 @@ public class ItemView extends javax.swing.JFrame {
 
             em.getTransaction().commit();
             MainView mv = MainView.getInstance();
-            mv.refreshItemCombo(null,false);
+            mv.refreshItemCombo(null, false);
         } else {
             utls.showErrorDialog(this, "Nessun dato selezionao per l'aggiornamento!", "Attenzione!");
         }
@@ -580,6 +595,12 @@ public class ItemView extends javax.swing.JFrame {
 
     }
 
+    private void initAutocomplete() {
+
+        ArrayList<String> valuesList = getLocations();
+        AutoCompleteDecorator.decorate(locationTF, valuesList, false);
+    }
+
     private void hideIdColumn() {
 
         jTable1.getColumnModel().getColumn(0).setMinWidth(0);
@@ -672,4 +693,5 @@ public class ItemView extends javax.swing.JFrame {
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
     private Utils utls = Utils.getInstance();
+
 }
