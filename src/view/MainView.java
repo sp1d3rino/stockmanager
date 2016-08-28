@@ -851,12 +851,14 @@ public class MainView extends javax.swing.JFrame {
     private void downloadTFKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_downloadTFKeyPressed
         if (evt.getKeyCode() == KEY_ENTER) {
             jButton4ActionPerformed(null);
+            downloadTF.selectAll();
         }
     }//GEN-LAST:event_downloadTFKeyPressed
 
     private void loadTFKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_loadTFKeyPressed
         if (evt.getKeyCode() == KEY_ENTER) {
             jButton4ActionPerformed(null);
+            loadTF.selectAll();
         }
     }//GEN-LAST:event_loadTFKeyPressed
     private double calculateRemainQuantity(Item item) {
