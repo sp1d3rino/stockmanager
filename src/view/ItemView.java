@@ -9,6 +9,7 @@ import entities.Category;
 import entities.Item;
 import entities.Measure;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observer;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -411,6 +412,11 @@ public class ItemView extends javax.swing.JFrame {
         if (!checkInputFields()) {
             return;
         }
+        if (checkIfExists(descriptionTF.getText().trim())) {
+            utls.showErrorDialog(this, "Esiste già un elemento con la stessa descrizione", "Errore inserimento");
+            return;
+        };
+
         Item i = new Item();
 
         i.setDescription(descriptionTF.getText());
@@ -430,6 +436,20 @@ public class ItemView extends javax.swing.JFrame {
         mv.refreshItemCombo(i, true);
         initAutocomplete();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private boolean checkIfExists(String desc) {
+        javax.persistence.Query countQuery;
+        countQuery = em.createQuery("SELECT COUNT(i.id) FROM Item i WHERE i.description=:description").setParameter("description", desc);
+        List<Long> listCount = countQuery.getResultList();
+
+        long val = listCount.get(0);
+
+        if (val == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     private boolean checkInputFields() {
         boolean result = true;

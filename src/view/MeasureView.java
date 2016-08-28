@@ -6,6 +6,7 @@
 package view;
 
 import entities.Measure;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -225,10 +226,16 @@ public class MeasureView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if(!checkInputFields())return;
+        if (!checkInputFields()) {
+            return;
+        }
         Measure m = new Measure();
-        m.setDescription(descriptionTF.getText());
+        m.setDescription(descriptionTF.getText().trim());
 
+        if(checkIfExists(descriptionTF.getText().trim())){
+            utls.showErrorDialog(this, "Esiste già un elemento con la stessa descrizione", "Errore inserimento");
+            return;
+        };
         em.getTransaction().begin();
         em.persist(m);
         em.getTransaction().commit();
@@ -238,17 +245,29 @@ public class MeasureView extends javax.swing.JFrame {
         iv.refreshMeasureComboBox();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-        private boolean checkInputFields() {
+ 
+    private boolean checkIfExists(String desc){
+        javax.persistence.Query countQuery;
+        countQuery = em.createQuery("SELECT COUNT(m.id) FROM Measure m WHERE m.description=:description").setParameter("description", desc);
+        List<Long> listCount = countQuery.getResultList();
+        
+        long val = listCount.get(0); 
+                
+       if (val ==0)return false;else return true;
+    }
+    
+    
+    private boolean checkInputFields() {
         boolean result = true;
         result = utls.changeFieldBackground(descriptionTF, result);
 
         if (!result) {
             utls.showErrorDialog(this, "Inserire una descrizione per aggiungere il dato", "Errore inserimento");
         }
-         
+
         return result;
     }
-    
+
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
 
         this._instance = null;
@@ -261,7 +280,7 @@ public class MeasureView extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         Measure m = null;
-                int lastRowIndex = jTable1.getSelectedRow();
+        int lastRowIndex = jTable1.getSelectedRow();
         long index = jTable1.getSelectedRow();
         if (index > -1) {
             //get item id
@@ -277,7 +296,7 @@ public class MeasureView extends javax.swing.JFrame {
                     refreshJTable();
                     ItemView iv = ItemView.getInstance();
                     iv.refreshMeasureComboBox();
-                                        //auto select after delete
+                    //auto select after delete
                     if (lastRowIndex == jTable1.getRowCount()) {
                         lastRowIndex--;
                     }

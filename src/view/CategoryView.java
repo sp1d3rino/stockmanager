@@ -6,6 +6,7 @@
 package view;
 
 import entities.Category;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -247,6 +248,8 @@ public class CategoryView extends javax.swing.JFrame {
         jTable1.getColumnModel().getColumn(0).setWidth(0);
     }
 
+   
+
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         this._instance = null;
         this.setVisible(false);
@@ -297,10 +300,17 @@ public class CategoryView extends javax.swing.JFrame {
 
     //add into jTable
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if (!checkInputFields())return;
+        if (!checkInputFields()) {
+            return;
+        }
 
         Category c = new Category();
         c.setDescription(descriptionTF.getText());
+
+        if (checkIfExists(descriptionTF.getText().trim())) {
+            utls.showErrorDialog(this, "Esiste già un elemento con la stessa descrizione", "Errore inserimento");
+            return;
+        };
 
         em.getTransaction().begin();
         em.persist(c);
@@ -311,6 +321,19 @@ public class CategoryView extends javax.swing.JFrame {
         iv.refreshCategoryComboBox();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+     private boolean checkIfExists(String desc) {
+        javax.persistence.Query countQuery;
+        countQuery = em.createQuery("SELECT COUNT(c.id) FROM Category c WHERE c.description=:description").setParameter("description", desc);
+        List<Long> listCount = countQuery.getResultList();
+
+        long val = listCount.get(0);
+
+        if (val == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
     private boolean checkInputFields() {
         boolean result = true;
         result = utls.changeFieldBackground(descriptionTF, result);
@@ -320,7 +343,7 @@ public class CategoryView extends javax.swing.JFrame {
         }
         return result;
     }
-        //delete from jTable
+    //delete from jTable
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         Category m = null;
         int lastRowIndex = jTable1.getSelectedRow();
