@@ -378,9 +378,24 @@ public class ItemView extends javax.swing.JFrame {
         ArrayList<String> al = new ArrayList<>();
 
         for (Item i : itemList) {
-            if (!al.contains(i.getLocation())) 
+            if (!al.contains(i.getLocation())) {
                 al.add(i.getLocation());
-            
+            }
+
+        }
+
+        return al;
+    }
+
+    private ArrayList<String> getDescriptions() {
+
+        ArrayList<String> al = new ArrayList<>();
+
+        for (Item i : itemList) {
+            if (!al.contains(i.getDescription())) {
+                al.add(i.getDescription());
+            }
+
         }
 
         return al;
@@ -597,8 +612,12 @@ public class ItemView extends javax.swing.JFrame {
 
     private void initAutocomplete() {
 
-        ArrayList<String> valuesList = getLocations();
-        AutoCompleteDecorator.decorate(locationTF, valuesList, false);
+        ArrayList<String> locationList = getLocations();
+        AutoCompleteDecorator.decorate(locationTF, locationList, false);
+
+        ArrayList<String> descList = getDescriptions();
+        AutoCompleteDecorator.decorate(descriptionTF, descList, false);
+
     }
 
     private void hideIdColumn() {
