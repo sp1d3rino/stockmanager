@@ -760,6 +760,7 @@ public class MainView extends javax.swing.JFrame {
             }
 
             utls.createTSChart(graphPanel, "Trend Uscite", dset);
+            
         } catch (Exception e) {
             System.out.println("Error during chart building");
             e.printStackTrace();

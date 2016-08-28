@@ -15,11 +15,13 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import javax.swing.BorderFactory;
@@ -33,6 +35,9 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.title.LegendTitle;
+import org.jfree.chart.title.TextTitle;
+import org.jfree.chart.title.Title;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
@@ -248,11 +253,15 @@ public class Utils {
     public void createTSChart(JPanel panel, String title, HashMap<java.util.Date, Double> dset) {
         XYDataset dataset = createTSDataset(dset);
         JFreeChart chart = createTSChart(title, dataset);
+        LegendTitle legendTitle = chart.getLegend();
 
+        List<Title> subTitles = new ArrayList<Title>();
+        subTitles.add(new TextTitle("Seleziona per zoom"));
+        chart.setSubtitles(subTitles);
         ChartPanel chartPanel = new ChartPanel(chart);
         chart.setBackgroundPaint(panel.getBackground());
         chartPanel.setPreferredSize(panel.getPreferredSize());
-
+         
         chartPanel.setMouseZoomable(true, false);
         panel.add(chartPanel);
         chartPanel.updateUI();
