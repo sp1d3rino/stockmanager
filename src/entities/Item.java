@@ -42,6 +42,8 @@ public class Item implements Serializable {
     @Basic
     private double min_quantity;
 
+    @Basic
+    private double rem_quantity;
 
     @ManyToOne(targetEntity = Category.class)
     private Category category;
@@ -107,6 +109,17 @@ public class Item implements Serializable {
         double oldMin_quantity = this.min_quantity;
         this.min_quantity = min_quantity;
         changeSupport.firePropertyChange("min_quantity", oldMin_quantity, min_quantity);
+    }
+
+    public double getRem_quantity() {
+        return this.rem_quantity;
+    }
+
+    public void setRem_quantity(double rem_quantity) {
+        double oldRem_quantity = this.rem_quantity;
+        this.rem_quantity = rem_quantity;
+ 
+        changeSupport.firePropertyChange("rem_quantity", oldRem_quantity, rem_quantity);
     }
 
     public Category getCategory() {

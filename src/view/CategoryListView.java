@@ -7,6 +7,11 @@ package view;
 
 import entities.Item;
 import entities.Category;
+import java.awt.Color;
+import java.awt.Component;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.table.TableCellRenderer;
 
 /**
  *
@@ -23,6 +28,7 @@ public class CategoryListView extends javax.swing.JFrame {
         initComponents();
         _instance = this;
         hideIdColumn();
+        markLowQuantityRows();
     }
 
     public static CategoryListView getInstance() {
@@ -58,6 +64,10 @@ public class CategoryListView extends javax.swing.JFrame {
         stockoperationList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : stockoperationQuery.getResultList();
         itemQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT i FROM Item i");
         itemList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : itemQuery.getResultList();
+        itemQuery1 = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT i FROM Item i");
+        itemList1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : itemQuery1.getResultList();
+        itemQuery2 = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT i FROM Item i");
+        itemList2 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : itemQuery2.getResultList();
         jPanel1 = new javax.swing.JPanel();
         categoryCB = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
@@ -134,7 +144,7 @@ public class CategoryListView extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, itemList, jTable1);
+        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, itemList2, jTable1);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${id}"));
         columnBinding.setColumnName("Id");
         columnBinding.setColumnClass(Long.class);
@@ -145,13 +155,13 @@ public class CategoryListView extends javax.swing.JFrame {
         columnBinding.setColumnName("U.M.");
         columnBinding.setColumnClass(entities.Measure.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${min_quantity}"));
-        columnBinding.setColumnName("Quantità minima");
+        columnBinding.setColumnName("Quantità Min");
         columnBinding.setColumnClass(Double.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${init_quantity}"));
-        columnBinding.setColumnName("Quantità iniziale");
+        columnBinding.setColumnName("Quantità Iniziale");
         columnBinding.setColumnClass(Double.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${price}"));
-        columnBinding.setColumnName("Quantità residua");
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${rem_quantity}"));
+        columnBinding.setColumnName("Quantità Residua");
         columnBinding.setColumnClass(Double.class);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
@@ -206,6 +216,31 @@ public class CategoryListView extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_formWindowClosing
 
+    private void markLowQuantityRows() {
+        ColorRenderer cr = new ColorRenderer();
+       cr.getTableCellRendererComponent(jTable1, Color.BLUE, false, false, 0, 1).setBackground(Color.red);
+        jTable1.setDefaultRenderer(Color.class, cr);
+     
+    }
+
+    
+    /* Using ColorRender Class to set background color */
+    private class ColorRenderer extends JLabel
+            implements TableCellRenderer {
+
+        public Component getTableCellRendererComponent(
+                JTable table, Object color,
+                boolean isSelected, boolean hasFocus,
+                int row, int column) {
+            Color newColor = (Color) color;
+            setBackground(newColor);
+            setToolTipText("RGB value: " + newColor.getRed() + ", "
+                    + newColor.getGreen() + ", "
+                    + newColor.getBlue());
+            return this;
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -254,13 +289,13 @@ public class CategoryListView extends javax.swing.JFrame {
         columnBinding.setColumnName("U.M.");
         columnBinding.setColumnClass(entities.Measure.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${min_quantity}"));
-        columnBinding.setColumnName("Quantità minima");
+        columnBinding.setColumnName("Quantità Min");
         columnBinding.setColumnClass(Double.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${init_quantity}"));
-        columnBinding.setColumnName("Quantità iniziale");
+        columnBinding.setColumnName("Quantità Iniziale");
         columnBinding.setColumnClass(Double.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${price}"));
-        columnBinding.setColumnName("Quantità residua");
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${rem_quantity}"));
+        columnBinding.setColumnName("Quantità Residua");
         columnBinding.setColumnClass(Double.class);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
@@ -276,7 +311,11 @@ public class CategoryListView extends javax.swing.JFrame {
     private javax.persistence.Query categoryQuery;
     private javax.persistence.EntityManager entityManager;
     private java.util.List<entities.Item> itemList;
+    private java.util.List<entities.Item> itemList1;
+    private java.util.List<entities.Item> itemList2;
     private javax.persistence.Query itemQuery;
+    private javax.persistence.Query itemQuery1;
+    private javax.persistence.Query itemQuery2;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

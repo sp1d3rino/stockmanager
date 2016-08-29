@@ -20,6 +20,9 @@
             <jpa:basic attribute-type="double" visibile="true" name="min_quantity" id="_147142012558310">
                 <jpa:bv/>
             </jpa:basic>
+            <jpa:basic attribute-type="double" visibile="true" name="rem_quantity" id="_14724562472938">
+                <jpa:bv/>
+            </jpa:basic>
             <jpa:many-to-one optional="true" primaryKey="false" connected-entity-id="_1471025478562" visibile="true" name="category" id="_1471040712711183"/>
             <jpa:many-to-one optional="true" primaryKey="false" connected-entity-id="_1471026112429" visibile="true" name="measure" id="_1471040724918184"/>
             <jpa:id attribute-type="Long" visibile="true" name="id" id="_14710254771562">
@@ -56,6 +59,9 @@
         </jpa:nq>
         <jpa:nq e="false" name="Item.findByMin_quantity">
             <jpa:query>Select i from Item i where i.min_quantity=:min_quantity</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Item.findByRem_quantity">
+            <jpa:query>Select i from Item i where i.rem_quantity=:rem_quantity</jpa:query>
         </jpa:nq>
     </jpa:entity>
     <jpa:entity xre="false" compositePrimaryKeyClass="CategoryPK" abs="false" class="Category" visibile="true" minimized="false" rootElement="_14710253731421" id="_1471025478562">
@@ -165,7 +171,7 @@
     <jpa:diagram>
         <plane elementRef="_14710253731421">
             <shape elementRef="_1471025477125">
-                <Bounds x="326.0" y="50.0" width="128.0" height="231.0"/>
+                <Bounds x="326.0" y="50.0" width="128.0" height="252.0"/>
             </shape>
             <shape elementRef="_1471025478562">
                 <Bounds x="501.0" y="50.0" width="147.0" height="92.0"/>

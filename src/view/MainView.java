@@ -5,7 +5,6 @@
  */
 package view;
 
-
 import entities.Item;
 import entities.Stockoperation;
 import java.awt.Color;
@@ -197,21 +196,21 @@ public class MainView extends javax.swing.JFrame {
         jPanel2.setBackground(java.awt.SystemColor.inactiveCaption);
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jButton1.setText("Gestione Articoli");
+        jButton1.setText("Configurazione Articoli");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Gestione U.M.");
+        jButton2.setText("Configurazione  U.M.");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Gestione Categorie");
+        jButton3.setText("Configurazione Categorie");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -656,6 +655,7 @@ public class MainView extends javax.swing.JFrame {
         if (!checkInputFields()) {
             return;
         }
+
         Stockoperation s = new Stockoperation();
         s.setItem(item);
         s.setTimestamp(Calendar.getInstance().getTime());
@@ -675,6 +675,8 @@ public class MainView extends javax.swing.JFrame {
         em.persist(s);
         em.getTransaction().commit();
         refreshJTable();
+
+ 
 
         //reset fields
         loadTF.setText("0,00");
@@ -801,6 +803,7 @@ public class MainView extends javax.swing.JFrame {
                 em.remove(s);
                 em.getTransaction().commit();
                 refreshJTable();
+
                 //auto select after delete
                 if (lastRowIndex == jTable1.getRowCount()) {
                     lastRowIndex--;
@@ -942,7 +945,7 @@ public class MainView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
     private double calculateRemainQuantity(Item item) {
 
-        entityManager.refresh(item);
+        //  entityManager.refresh(item);
         initialqTF.setText(String.valueOf(item.getInit_quantity()).replace(".", ","));
 
         int count = jTable1.getRowCount();
@@ -958,6 +961,12 @@ public class MainView extends javax.swing.JFrame {
         total = item.getInit_quantity() + load - download;
         remainqTF.setText(String.valueOf(total).replace(".", ","));
         changeRemainTFColor(total);
+
+        // Update remaining quantity on the item
+        entityManager.getTransaction().begin();
+        item.setRem_quantity(total);
+        entityManager.getTransaction().commit();
+
         return total;
     }
 

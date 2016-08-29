@@ -425,6 +425,7 @@ public class ItemView extends javax.swing.JFrame {
         i.setPrice(Double.valueOf(priceTF.getText().replace(",", ".")));
         i.setMin_quantity(Double.valueOf(min_quantityTF.getText().replace(",", ".")));
         i.setInit_quantity(Double.valueOf(init_quantityTF.getText().replace(",", ".")));
+        i.setRem_quantity(Double.valueOf(init_quantityTF.getText().replace(",", ".")));
         i.setLocation(locationTF.getText());
 
         em.getTransaction().begin();
