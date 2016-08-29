@@ -292,12 +292,12 @@
                 <BindingParameter name="NAME" value="U.M."/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="entities.Measure.class"/>
               </Subbinding>
-              <Subbinding sourcePath="${min_quantity}">
-                <BindingParameter name="NAME" value="Quantit&#xe0; Min"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Double.class"/>
-              </Subbinding>
               <Subbinding sourcePath="${init_quantity}">
                 <BindingParameter name="NAME" value="Quantit&#xe0; Iniziale"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Double.class"/>
+              </Subbinding>
+              <Subbinding sourcePath="${min_quantity}">
+                <BindingParameter name="NAME" value="Quantit&#xe0; Min"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Double.class"/>
               </Subbinding>
               <Subbinding sourcePath="${rem_quantity}">
@@ -306,6 +306,9 @@
               </Subbinding>
             </BindingProperty>
           </BindingProperties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable(){&#xa;    public Component prepareRenderer(TableCellRenderer r, int rw, int col){&#xa;        Component c = super.prepareRenderer(r,rw,col);&#xa;&#xa;        double min,rem;&#xa;        min = Double.parseDouble(jTable1.getModel().getValueAt(rw, COLUMN_MIN_QUANTITY).toString());&#xa;        rem  = Double.parseDouble(jTable1.getModel().getValueAt(rw, COLUMN_REMAIN_QUANTITY).toString());&#xa;        if (min &gt;rem){&#xa;            c.setBackground(Color.RED);&#xa;        }&#xa;        else c.setBackground(Color.WHITE);&#xa;&#xa;        return c;&#xa;    }&#xa;}"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

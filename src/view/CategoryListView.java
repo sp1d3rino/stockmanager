@@ -20,7 +20,10 @@ import javax.swing.table.TableCellRenderer;
 public class CategoryListView extends javax.swing.JFrame {
 
     private static CategoryListView _instance = null;
-
+    /*table variables */
+    private static final int COLUMN_MIN_QUANTITY = 4;
+    private static final int COLUMN_REMAIN_QUANTITY = 5;
+    
     /**
      * Creates new form CategoryListView
      */
@@ -28,7 +31,7 @@ public class CategoryListView extends javax.swing.JFrame {
         initComponents();
         _instance = this;
         hideIdColumn();
-        markLowQuantityRows();
+        
     }
 
     public static CategoryListView getInstance() {
@@ -74,7 +77,21 @@ public class CategoryListView extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable(){
+            public Component prepareRenderer(TableCellRenderer r, int rw, int col){
+                Component c = super.prepareRenderer(r,rw,col);
+
+                double min,rem;
+                min = Double.parseDouble(jTable1.getModel().getValueAt(rw, COLUMN_MIN_QUANTITY).toString());
+                rem  = Double.parseDouble(jTable1.getModel().getValueAt(rw, COLUMN_REMAIN_QUANTITY).toString());
+                if (min >rem){
+                    c.setBackground(Color.RED);
+                }
+                else c.setBackground(Color.WHITE);
+
+                return c;
+            }
+        };
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Vista per Categoria");
@@ -154,11 +171,11 @@ public class CategoryListView extends javax.swing.JFrame {
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${measure}"));
         columnBinding.setColumnName("U.M.");
         columnBinding.setColumnClass(entities.Measure.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${min_quantity}"));
-        columnBinding.setColumnName("Quantità Min");
-        columnBinding.setColumnClass(Double.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${init_quantity}"));
         columnBinding.setColumnName("Quantità Iniziale");
+        columnBinding.setColumnClass(Double.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${min_quantity}"));
+        columnBinding.setColumnName("Quantità Min");
         columnBinding.setColumnClass(Double.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${rem_quantity}"));
         columnBinding.setColumnName("Quantità Residua");
@@ -204,6 +221,7 @@ public class CategoryListView extends javax.swing.JFrame {
             refreshTable();
             hideIdColumn();
         }
+        
     }//GEN-LAST:event_categoryCBActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -216,31 +234,8 @@ public class CategoryListView extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_formWindowClosing
 
-    private void markLowQuantityRows() {
-        ColorRenderer cr = new ColorRenderer();
-       cr.getTableCellRendererComponent(jTable1, Color.BLUE, false, false, 0, 1).setBackground(Color.red);
-        jTable1.setDefaultRenderer(Color.class, cr);
-     
-    }
-
-    
-    /* Using ColorRender Class to set background color */
-    private class ColorRenderer extends JLabel
-            implements TableCellRenderer {
-
-        public Component getTableCellRendererComponent(
-                JTable table, Object color,
-                boolean isSelected, boolean hasFocus,
-                int row, int column) {
-            Color newColor = (Color) color;
-            setBackground(newColor);
-            setToolTipText("RGB value: " + newColor.getRed() + ", "
-                    + newColor.getGreen() + ", "
-                    + newColor.getBlue());
-            return this;
-        }
-    }
-
+ 
+   
     /**
      * @param args the command line arguments
      */
@@ -274,11 +269,13 @@ public class CategoryListView extends javax.swing.JFrame {
                 new CategoryListView().setVisible(true);
             }
         });
+        
+        
     }
 
     private void refreshTable() {
         itemList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : itemQuery.getResultList();
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, itemList, jTable1);
+                org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, itemList2, jTable1);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${id}"));
         columnBinding.setColumnName("Id");
         columnBinding.setColumnClass(Long.class);
@@ -288,11 +285,11 @@ public class CategoryListView extends javax.swing.JFrame {
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${measure}"));
         columnBinding.setColumnName("U.M.");
         columnBinding.setColumnClass(entities.Measure.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${min_quantity}"));
-        columnBinding.setColumnName("Quantità Min");
-        columnBinding.setColumnClass(Double.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${init_quantity}"));
         columnBinding.setColumnName("Quantità Iniziale");
+        columnBinding.setColumnClass(Double.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${min_quantity}"));
+        columnBinding.setColumnName("Quantità Min");
         columnBinding.setColumnClass(Double.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${rem_quantity}"));
         columnBinding.setColumnName("Quantità Residua");
