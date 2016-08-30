@@ -5,12 +5,9 @@
  */
 package view;
 
-import entities.Item;
 import entities.Category;
 import java.awt.Color;
 import java.awt.Component;
-import javax.swing.JLabel;
-import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
 /**
@@ -23,7 +20,7 @@ public class CategoryListView extends javax.swing.JFrame {
     /*table variables */
     private static final int COLUMN_MIN_QUANTITY = 4;
     private static final int COLUMN_REMAIN_QUANTITY = 5;
-    
+
     /**
      * Creates new form CategoryListView
      */
@@ -31,7 +28,7 @@ public class CategoryListView extends javax.swing.JFrame {
         initComponents();
         _instance = this;
         hideIdColumn();
-        
+
     }
 
     public static CategoryListView getInstance() {
@@ -64,13 +61,13 @@ public class CategoryListView extends javax.swing.JFrame {
         categoryQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT c FROM Category c");
         categoryList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : categoryQuery.getResultList();
         stockoperationQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT s FROM Stockoperation s");
-        stockoperationList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : stockoperationQuery.getResultList();
+        stockoperationList = stockoperationQuery.getResultList();
         itemQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT i FROM Item i");
-        itemList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : itemQuery.getResultList();
+        itemList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(itemQuery.getResultList());
         itemQuery1 = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT i FROM Item i");
         itemList1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : itemQuery1.getResultList();
         itemQuery2 = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT i FROM Item i");
-        itemList2 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : itemQuery2.getResultList();
+        itemList2 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(itemQuery2.getResultList());
         jPanel1 = new javax.swing.JPanel();
         categoryCB = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
@@ -209,6 +206,7 @@ public class CategoryListView extends javax.swing.JFrame {
 
     private void categoryCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryCBActionPerformed
         //to avoid to reload the table with the call setTableFilter...
+
         if (evt.toString().endsWith("selectedItemReminder=]")) {
             return;
         }
@@ -221,7 +219,7 @@ public class CategoryListView extends javax.swing.JFrame {
             refreshTable();
             hideIdColumn();
         }
-        
+
     }//GEN-LAST:event_categoryCBActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -234,8 +232,6 @@ public class CategoryListView extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_formWindowClosing
 
- 
-   
     /**
      * @param args the command line arguments
      */
@@ -269,37 +265,16 @@ public class CategoryListView extends javax.swing.JFrame {
                 new CategoryListView().setVisible(true);
             }
         });
-        
-        
+
     }
 
     private void refreshTable() {
-        itemList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : itemQuery.getResultList();
-                org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, itemList2, jTable1);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${id}"));
-        columnBinding.setColumnName("Id");
-        columnBinding.setColumnClass(Long.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${description}"));
-        columnBinding.setColumnName("Articolo");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${measure}"));
-        columnBinding.setColumnName("U.M.");
-        columnBinding.setColumnClass(entities.Measure.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${init_quantity}"));
-        columnBinding.setColumnName("Quantità Iniziale");
-        columnBinding.setColumnClass(Double.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${min_quantity}"));
-        columnBinding.setColumnName("Quantità Min");
-        columnBinding.setColumnClass(Double.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${rem_quantity}"));
-        columnBinding.setColumnName("Quantità Residua");
-        columnBinding.setColumnClass(Double.class);
-        bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
+        itemList2.clear();
+        itemList2.addAll(itemQuery2.getResultList());
     }
 
     private void setTableFilter(Category c) {
-        itemQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT i FROM Item i WHERE i.category=:category").setParameter("category", c);
+        itemQuery2 = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT i FROM Item i WHERE i.category=:category").setParameter("category", c);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

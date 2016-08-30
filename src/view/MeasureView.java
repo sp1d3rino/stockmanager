@@ -64,7 +64,7 @@ public class MeasureView extends javax.swing.JFrame {
 
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("jdbc:derby:stockDB;create=truePU").createEntityManager();
         measureQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT m FROM Measure m");
-        measureList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : measureQuery.getResultList();
+        measureList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(measureQuery.getResultList());
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
@@ -353,21 +353,8 @@ public class MeasureView extends javax.swing.JFrame {
 
     private void refreshJTable() {
 
-        measureList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : measureQuery.getResultList();
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, measureList, jTable1);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${id}"));
-        columnBinding.setColumnName("Id");
-        columnBinding
-                .setColumnClass(Long.class
-                );
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${description}"));
-        columnBinding.setColumnName("Description");
-        columnBinding
-                .setColumnClass(String.class
-                );
-        bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
-        hideIdColumn();
+        measureList.clear();
+        measureList.addAll(measureQuery.getResultList());
     }
 
     /**

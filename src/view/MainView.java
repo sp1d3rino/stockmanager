@@ -40,9 +40,14 @@ public class MainView extends javax.swing.JFrame {
 
 
     /*table variables */
-    private static final int COLUMN_NUMBER_LOAD = 2;
-    private static final int COLUMN_NUMBER_DOWNLOAD = 3;
-    private static final int COLUMN_DATE = 4;
+    
+    private static final int COLUMN_ID = 0;
+    private static final int COLUMN_ITEM = 1;
+    private static final int COLUMN_DATE = 2;
+    private static final int COLUMN_NUMBER_LOAD = 3;
+    private static final int COLUMN_NUMBER_DOWNLOAD = 4;
+    private static final int COLUMN_NUMBER_NOTES = 5;
+    
 
     private static final int KEY_ENTER = 10;
     private Preferences menuPrefs = Preferences.userNodeForPackage(view.MainView.class);
@@ -110,7 +115,7 @@ public class MainView extends javax.swing.JFrame {
 
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("jdbc:derby:stockDB;create=truePU").createEntityManager();
         stockoperationQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT s FROM Stockoperation s");
-        stockoperationList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : stockoperationQuery.getResultList();
+        stockoperationList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(stockoperationQuery.getResultList());
         itemQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT i FROM Item i");
         itemList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : itemQuery.getResultList();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -746,19 +751,21 @@ public class MainView extends javax.swing.JFrame {
 
     private void setTableLayout() {
 
-        jTable1.getColumnModel().getColumn(0).setMinWidth(0);
-        jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
-        jTable1.getColumnModel().getColumn(0).setWidth(0);
+        // hide id column
+        jTable1.getColumnModel().getColumn(COLUMN_ID).setMinWidth(0);
+        jTable1.getColumnModel().getColumn(COLUMN_ID).setMaxWidth(0);
+        jTable1.getColumnModel().getColumn(COLUMN_ID).setWidth(0);
 
-        //hide also item column        
-        jTable1.getColumnModel().getColumn(1).setMinWidth(0);
-        jTable1.getColumnModel().getColumn(1).setMaxWidth(0);
-        jTable1.getColumnModel().getColumn(1).setWidth(0);
+        //hide  item column        
+        jTable1.getColumnModel().getColumn(COLUMN_ITEM).setMinWidth(0);
+        jTable1.getColumnModel().getColumn(COLUMN_ITEM).setMaxWidth(0);
+        jTable1.getColumnModel().getColumn(COLUMN_ITEM).setWidth(0);
 
-        jTable1.getColumnModel().getColumn(2).setMaxWidth(100);
-        jTable1.getColumnModel().getColumn(3).setMaxWidth(100);
-        jTable1.getColumnModel().getColumn(4).setMinWidth(100);
-        jTable1.getColumnModel().getColumn(4).setMaxWidth(200);
+        //set 
+        jTable1.getColumnModel().getColumn(COLUMN_DATE).setMaxWidth(200);
+        jTable1.getColumnModel().getColumn(COLUMN_NUMBER_LOAD).setMaxWidth(100);
+        jTable1.getColumnModel().getColumn(COLUMN_NUMBER_DOWNLOAD).setMaxWidth(100);
+        jTable1.getColumnModel().getColumn(COLUMN_NUMBER_NOTES).setMaxWidth(200);
 
         // auto storting
         jTable1.setAutoCreateRowSorter(true);
@@ -846,9 +853,9 @@ public class MainView extends javax.swing.JFrame {
             stockOp = em.find(Stockoperation.class, id);
 
             em.getTransaction().begin();
-            stockOp.setLoaded_quantity((double) jTable1.getValueAt(index, 2));
-            stockOp.setDownloaded_quantity((double) jTable1.getValueAt(index, 3));
-            stockOp.setTimestamp((java.util.Date) jTable1.getValueAt(index, 4));
+            stockOp.setLoaded_quantity((double) jTable1.getValueAt(index, COLUMN_NUMBER_LOAD));
+            stockOp.setDownloaded_quantity((double) jTable1.getValueAt(index, COLUMN_NUMBER_DOWNLOAD));
+            stockOp.setTimestamp((java.util.Date) jTable1.getValueAt(index, COLUMN_DATE));
             stockOp.setNotes((String) jTable1.getValueAt(index, 5));
 
             em.getTransaction().commit();
@@ -975,9 +982,12 @@ public class MainView extends javax.swing.JFrame {
     }
 
     public void refreshJTable() {
+        
         System.out.println("view.MainView.refreshJTable()");
-        stockoperationList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : stockoperationQuery.getResultList();
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, stockoperationList, jTable1);
+        stockoperationList.clear();
+        stockoperationList.addAll( stockoperationQuery.getResultList());
+        //stockoperationList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : stockoperationQuery.getResultList();
+        /*org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, stockoperationList, jTable1);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${id}"));
         columnBinding.setColumnName("Id");
         columnBinding.setColumnClass(Long.class);
@@ -997,8 +1007,9 @@ public class MainView extends javax.swing.JFrame {
         columnBinding.setColumnName("Note");
         columnBinding.setColumnClass(String.class);
         bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
-        setTableLayout();
+        jTableBinding.bind();*/
+        
+     //   setTableLayout();
         setChartLayout();
         calculateRemainQuantity((Item) itemCB.getSelectedItem());
 
