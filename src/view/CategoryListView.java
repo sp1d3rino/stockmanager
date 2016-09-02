@@ -8,6 +8,8 @@ package view;
 import entities.Category;
 import java.awt.Color;
 import java.awt.Component;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.table.TableCellRenderer;
 
 /**
@@ -30,6 +32,8 @@ public class CategoryListView extends javax.swing.JFrame {
         hideIdColumn();
 
     }
+    
+
 
     public static CategoryListView getInstance() {
         if (_instance == null) {

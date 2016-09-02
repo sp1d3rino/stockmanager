@@ -13,7 +13,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import javax.swing.KeyStroke;
+import utilities.AutoCompleteTextField;
 import utilities.Utils;
 
 /**
@@ -22,6 +23,7 @@ import utilities.Utils;
  */
 public class ItemView extends javax.swing.JFrame {
 
+    private static final String COMMIT_ACTION = "commit";
     private static final int KEY_ENTER = 10;
     private static ItemView _instance;
     private EntityManagerFactory emf = Persistence
@@ -37,7 +39,30 @@ public class ItemView extends javax.swing.JFrame {
         hideIdColumn();
 
         initAutocomplete();
- 
+
+    }
+
+    private void initAutocomplete() {
+
+        //init autocomplete for items
+        ArrayList<String> aList = new ArrayList<>();
+        for (Item i : (List<Item>) itemQuery.getResultList()) {
+            aList.add(i.getDescription());
+        }
+        descriptionTF.setFocusTraversalKeysEnabled(false);
+        AutoCompleteTextField autoComplete = new AutoCompleteTextField(descriptionTF, aList);
+        descriptionTF.getDocument().addDocumentListener(autoComplete);
+        descriptionTF.getInputMap().put(KeyStroke.getKeyStroke("TAB"), COMMIT_ACTION);
+        descriptionTF.getActionMap().put(COMMIT_ACTION, autoComplete.new CommitAction());
+
+
+        //init autocomplete for location
+        locationTF.setFocusTraversalKeysEnabled(false);
+        AutoCompleteTextField autoComplete2 = new AutoCompleteTextField(locationTF, getLocations());
+        locationTF.getDocument().addDocumentListener(autoComplete2);
+        locationTF.getInputMap().put(KeyStroke.getKeyStroke("TAB"), COMMIT_ACTION);
+        locationTF.getActionMap().put(COMMIT_ACTION, autoComplete2.new CommitAction());
+
     }
 
     private void setTableLayout() {
@@ -70,6 +95,8 @@ public class ItemView extends javax.swing.JFrame {
         categoryList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : categoryQuery.getResultList();
         measureQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT m FROM Measure m");
         measureList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : measureQuery.getResultList();
+        categoryQuery1 = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT c FROM Category c");
+        categoryList1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : categoryQuery1.getResultList();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
@@ -155,7 +182,7 @@ public class ItemView extends javax.swing.JFrame {
 
         jLabel2.setText("Categoria");
 
-        org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, categoryList, categoryCB);
+        org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, categoryList1, categoryCB);
         bindingGroup.addBinding(jComboBoxBinding);
 
         jLabel3.setText("Un. misura");
@@ -253,9 +280,12 @@ public class ItemView extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2))
-                                .addGap(7, 7, 7)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(30, 30, 30))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(descriptionTF, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(categoryCB, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -290,14 +320,14 @@ public class ItemView extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(descriptionTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel4))
+                        .addComponent(jLabel1))
                     .addComponent(priceTF, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(locationTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel5)))
+                        .addComponent(jLabel5)
+                        .addComponent(jLabel4)))
                 .addGap(3, 3, 3)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(categoryCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -432,7 +462,6 @@ public class ItemView extends javax.swing.JFrame {
 
         MainView mv = MainView.getInstance();
         mv.refreshItemCombo(i, true);
-        initAutocomplete();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private boolean checkIfExists(String desc) {
@@ -596,17 +625,6 @@ public class ItemView extends javax.swing.JFrame {
     public void refreshJTable() {
         itemList.clear();
         itemList.addAll(itemQuery.getResultList());
-     
-
-    }
-
-    private void initAutocomplete() {
-
-        ArrayList<String> locationList = getLocations();
-        AutoCompleteDecorator.decorate(locationTF, locationList, false);
-
-        ArrayList<String> descList = getDescriptions();
-        AutoCompleteDecorator.decorate(descriptionTF, descList, false);
 
     }
 
@@ -656,11 +674,11 @@ public class ItemView extends javax.swing.JFrame {
     }
 
     public void refreshCategoryComboBox() {
-
+/*
         categoryList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : categoryQuery.getResultList();
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, categoryList, categoryCB);
         bindingGroup.addBinding(jComboBoxBinding);
-        bindingGroup.bind();
+        bindingGroup.bind();*/
     }
 
     public void refreshMeasureComboBox() {
@@ -673,7 +691,9 @@ public class ItemView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> categoryCB;
     private java.util.List<entities.Category> categoryList;
+    private java.util.List<entities.Category> categoryList1;
     private javax.persistence.Query categoryQuery;
+    private javax.persistence.Query categoryQuery1;
     private javax.swing.JTextField descriptionTF;
     private javax.persistence.EntityManager entityManager;
     private javax.swing.JFormattedTextField init_quantityTF;

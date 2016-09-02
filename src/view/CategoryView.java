@@ -6,10 +6,13 @@
 package view;
 
 import entities.Category;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.swing.KeyStroke;
+import utilities.AutoCompleteTextField;
 import utilities.Utils;
 
 /**
@@ -18,6 +21,7 @@ import utilities.Utils;
  */
 public class CategoryView extends javax.swing.JFrame {
 
+    private static final String COMMIT_ACTION = "commit";
     private static final int KEY_ENTER = 10;
     private static CategoryView _instance;
 
@@ -32,7 +36,26 @@ public class CategoryView extends javax.swing.JFrame {
         initComponents();
         _instance = this;
         hideIdColumn();
+        initAutocomplete();
 
+    }
+
+    private void initAutocomplete() {
+        
+      
+        ArrayList<String> aList = new ArrayList<>();
+        for (Category c : (List<Category>) categoryQuery.getResultList()) {
+            aList.add(c.getDescription());
+        }
+        descriptionTF.setFocusTraversalKeysEnabled(false);
+        AutoCompleteTextField autoComplete = new AutoCompleteTextField(descriptionTF, aList);
+        descriptionTF.getDocument().addDocumentListener(autoComplete);
+        descriptionTF.getInputMap().put(KeyStroke.getKeyStroke("TAB"), COMMIT_ACTION);
+        descriptionTF.getActionMap().put(COMMIT_ACTION, autoComplete.new CommitAction());
+
+ 
+        
+           
     }
 
     public static CategoryView getInstance() {
@@ -237,7 +260,6 @@ public class CategoryView extends javax.swing.JFrame {
         jTable1.getColumnModel().getColumn(0).setWidth(0);
     }
 
-   
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         this._instance = null;
@@ -310,7 +332,7 @@ public class CategoryView extends javax.swing.JFrame {
         iv.refreshCategoryComboBox();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-     private boolean checkIfExists(String desc) {
+    private boolean checkIfExists(String desc) {
         javax.persistence.Query countQuery;
         countQuery = em.createQuery("SELECT COUNT(c.id) FROM Category c WHERE c.description=:description").setParameter("description", desc);
         List<Long> listCount = countQuery.getResultList();
@@ -323,6 +345,7 @@ public class CategoryView extends javax.swing.JFrame {
             return true;
         }
     }
+
     private boolean checkInputFields() {
         boolean result = true;
         result = utls.changeFieldBackground(descriptionTF, result);
@@ -332,6 +355,7 @@ public class CategoryView extends javax.swing.JFrame {
         }
         return result;
     }
+
     //delete from jTable
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         Category m = null;

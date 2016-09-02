@@ -6,10 +6,13 @@
 package view;
 
 import entities.Measure;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.swing.KeyStroke;
+import utilities.AutoCompleteTextField;
 import utilities.Utils;
 
 /**
@@ -18,6 +21,7 @@ import utilities.Utils;
  */
 public class MeasureView extends javax.swing.JFrame {
 
+    private static final String COMMIT_ACTION = "commit";
     private static final int KEY_ENTER = 10;
     private static MeasureView _instance = null;
 
@@ -33,7 +37,18 @@ public class MeasureView extends javax.swing.JFrame {
         initComponents();
         _instance = this;
         hideIdColumn();
+        initAutocomplete();
 
+    }
+
+    private void initAutocomplete() {
+        ArrayList<String> aList = new ArrayList<>();
+        for (Measure m:(List<Measure>)measureQuery.getResultList())aList.add(m.getDescription());
+        descriptionTF.setFocusTraversalKeysEnabled(false);
+        AutoCompleteTextField autoComplete = new AutoCompleteTextField(descriptionTF,aList);
+        descriptionTF.getDocument().addDocumentListener(autoComplete);
+        descriptionTF.getInputMap().put(KeyStroke.getKeyStroke("TAB"), COMMIT_ACTION);
+        descriptionTF.getActionMap().put(COMMIT_ACTION, autoComplete.new CommitAction());
     }
 
     public static MeasureView getInstance() {
@@ -118,6 +133,11 @@ public class MeasureView extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel1.setForeground(java.awt.SystemColor.control);
 
+        descriptionTF.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                descriptionTFFocusLost(evt);
+            }
+        });
         descriptionTF.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 descriptionTFMouseClicked(evt);
@@ -231,7 +251,7 @@ public class MeasureView extends javax.swing.JFrame {
         Measure m = new Measure();
         m.setDescription(descriptionTF.getText().trim());
 
-        if(checkIfExists(descriptionTF.getText().trim())){
+        if (checkIfExists(descriptionTF.getText().trim())) {
             utls.showErrorDialog(this, "Esiste già un elemento con la stessa descrizione", "Errore inserimento");
             return;
         };
@@ -244,18 +264,20 @@ public class MeasureView extends javax.swing.JFrame {
         iv.refreshMeasureComboBox();
     }//GEN-LAST:event_jButton2ActionPerformed
 
- 
-    private boolean checkIfExists(String desc){
+    private boolean checkIfExists(String desc) {
         javax.persistence.Query countQuery;
         countQuery = em.createQuery("SELECT COUNT(m.id) FROM Measure m WHERE m.description=:description").setParameter("description", desc);
         List<Long> listCount = countQuery.getResultList();
-        
-        long val = listCount.get(0); 
-                
-       if (val ==0)return false;else return true;
+
+        long val = listCount.get(0);
+
+        if (val == 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
-    
-    
+
     private boolean checkInputFields() {
         boolean result = true;
         result = utls.changeFieldBackground(descriptionTF, result);
@@ -351,6 +373,10 @@ public class MeasureView extends javax.swing.JFrame {
         descriptionTF.selectAll();
     }//GEN-LAST:event_descriptionTFMouseClicked
 
+    private void descriptionTFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_descriptionTFFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_descriptionTFFocusLost
+
     private void refreshJTable() {
 
         measureList.clear();
@@ -417,4 +443,5 @@ public class MeasureView extends javax.swing.JFrame {
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
     private Utils utls = Utils.getInstance();
+
 }
