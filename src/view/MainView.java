@@ -40,14 +40,12 @@ public class MainView extends javax.swing.JFrame {
 
 
     /*table variables */
-    
     private static final int COLUMN_ID = 0;
     private static final int COLUMN_ITEM = 1;
     private static final int COLUMN_DATE = 2;
     private static final int COLUMN_NUMBER_LOAD = 3;
     private static final int COLUMN_NUMBER_DOWNLOAD = 4;
     private static final int COLUMN_NUMBER_NOTES = 5;
-    
 
     private static final int KEY_ENTER = 10;
     private Preferences menuPrefs = Preferences.userNodeForPackage(view.MainView.class);
@@ -68,7 +66,12 @@ public class MainView extends javax.swing.JFrame {
         _instance = this;
         loadSettings();
         setTableLayout();
+        updateVersion();
 
+    }
+
+    private void updateVersion() {
+        System.out.println(MainView.class.getPackage().getImplementationVersion());
     }
 
     public static MainView getInstance() {
@@ -681,8 +684,6 @@ public class MainView extends javax.swing.JFrame {
         em.getTransaction().commit();
         refreshJTable();
 
- 
-
         //reset fields
         loadTF.setText("0,00");
         downloadTF.setText("0,00");
@@ -980,10 +981,10 @@ public class MainView extends javax.swing.JFrame {
     }
 
     public void refreshJTable() {
-        
+
         System.out.println("view.MainView.refreshJTable()");
         stockoperationList.clear();
-        stockoperationList.addAll( stockoperationQuery.getResultList());
+        stockoperationList.addAll(stockoperationQuery.getResultList());
 
         setChartLayout();
         calculateRemainQuantity((Item) itemCB.getSelectedItem());

@@ -6,6 +6,7 @@
 package view;
 
 import entities.Category;
+import entities.Item;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
@@ -71,6 +72,10 @@ public class CategoryListView extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         categoryCB = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        totResTF = new javax.swing.JFormattedTextField();
+        totPriceTF = new javax.swing.JFormattedTextField();
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -104,12 +109,12 @@ public class CategoryListView extends javax.swing.JFrame {
         bindingGroup.addBinding(jComboBoxBinding);
 
         categoryCB.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 categoryCBAncestorAdded(evt);
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
         });
         categoryCB.addActionListener(new java.awt.event.ActionListener() {
@@ -120,15 +125,31 @@ public class CategoryListView extends javax.swing.JFrame {
 
         jLabel1.setText("Categoria");
 
+        jLabel2.setText("Totale Quant. residua");
+
+        jLabel3.setText("Totale dei prezzi");
+
+        totResTF.setEditable(false);
+        totResTF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+
+        totPriceTF.setEditable(false);
+        totPriceTF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(categoryCB, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(categoryCB, 0, 166, Short.MAX_VALUE)
+                    .addComponent(totResTF)
+                    .addComponent(totPriceTF))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -138,7 +159,15 @@ public class CategoryListView extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(categoryCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(totResTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(totPriceTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(java.awt.SystemColor.activeCaption);
@@ -203,7 +232,7 @@ public class CategoryListView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -226,7 +255,7 @@ public class CategoryListView extends javax.swing.JFrame {
             
             setTableFilter(c);
             refreshTable();
-           // hideIdColumn();
+ 
         }
 
     }//GEN-LAST:event_categoryCBActionPerformed
@@ -284,6 +313,19 @@ public class CategoryListView extends javax.swing.JFrame {
     private void refreshTable() {
         itemList.clear();
         itemList.addAll(itemQuery.getResultList());
+        
+
+        //fill Total Price and Remain Quantity for this category
+        double totRes=0.0,totPrice=0.0;
+        for(Item i:itemList){
+            totRes+= i.getRem_quantity();
+            totPrice+=i.getPrice();
+        }
+        totPriceTF.setText(String.valueOf(totPrice));
+        totResTF.setText(String.valueOf(totRes));
+        
+        
+        
     }
 
     private void setTableFilter(Category c) {
@@ -299,12 +341,16 @@ public class CategoryListView extends javax.swing.JFrame {
     private javax.persistence.Query itemQuery;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private java.util.List<entities.Stockoperation> stockoperationList;
     private javax.persistence.Query stockoperationQuery;
+    private javax.swing.JFormattedTextField totPriceTF;
+    private javax.swing.JFormattedTextField totResTF;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
