@@ -20,6 +20,7 @@
         <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
           <ComponentRef name="categoryQuery"/>
         </Property>
+        <Property name="observable" type="boolean" value="true"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;entities.Category&gt;"/>
@@ -38,6 +39,7 @@
         <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
           <ComponentRef name="stockoperationQuery"/>
         </Property>
+        <Property name="observable" type="boolean" value="true"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="stockoperationQuery.getResultList()"/>
@@ -57,46 +59,9 @@
         <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
           <ComponentRef name="itemQuery"/>
         </Property>
+        <Property name="observable" type="boolean" value="true"/>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(itemQuery.getResultList())"/>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;entities.Item&gt;"/>
-      </AuxValues>
-    </Component>
-    <Component class="javax.persistence.Query" name="itemQuery1">
-      <Properties>
-        <Property name="query" type="java.lang.String" value="SELECT i FROM Item i"/>
-        <Property name="entityManager" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$EMProperty$EntityManagerEditor">
-          <ComponentRef name="entityManager"/>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="java.util.List" name="itemList1">
-      <Properties>
-        <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
-          <ComponentRef name="itemQuery1"/>
-        </Property>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;entities.Item&gt;"/>
-      </AuxValues>
-    </Component>
-    <Component class="javax.persistence.Query" name="itemQuery2">
-      <Properties>
-        <Property name="query" type="java.lang.String" value="SELECT i FROM Item i"/>
-        <Property name="entityManager" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$EMProperty$EntityManagerEditor">
-          <ComponentRef name="entityManager"/>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="java.util.List" name="itemList2">
-      <Properties>
-        <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
-          <ComponentRef name="itemQuery2"/>
-        </Property>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(itemQuery2.getResultList())"/>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;entities.Item&gt;"/>
       </AuxValues>
     </Component>
@@ -183,6 +148,7 @@
             <BindingProperty name="elements" source="categoryList" target="categoryCB" targetPath="elements" updateStrategy="0" immediately="false"/>
           </BindingProperties>
           <Events>
+            <EventHandler event="ancestorAdded" listener="javax.swing.event.AncestorListener" parameters="javax.swing.event.AncestorEvent" handler="categoryCBAncestorAdded"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="categoryCBActionPerformed"/>
           </Events>
           <AuxValues>
@@ -282,7 +248,7 @@
             </Property>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="elements" source="itemList2" target="jTable1" targetPath="elements" updateStrategy="0" immediately="true">
+            <BindingProperty name="elements" source="itemList" target="jTable1" targetPath="elements" updateStrategy="0" immediately="true">
               <Subbinding sourcePath="${id}">
                 <BindingParameter name="NAME" value="Id"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Long.class"/>
@@ -296,15 +262,15 @@
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="entities.Measure.class"/>
               </Subbinding>
               <Subbinding sourcePath="${init_quantity}">
-                <BindingParameter name="NAME" value="Quantit&#xe0; Iniziale"/>
+                <BindingParameter name="NAME" value="Quantit&#xe0; iniziale"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Double.class"/>
               </Subbinding>
               <Subbinding sourcePath="${min_quantity}">
-                <BindingParameter name="NAME" value="Quantit&#xe0; Min"/>
+                <BindingParameter name="NAME" value="Quantit&#xe0; minima"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Double.class"/>
               </Subbinding>
               <Subbinding sourcePath="${rem_quantity}">
-                <BindingParameter name="NAME" value="Quantit&#xe0; Residua"/>
+                <BindingParameter name="NAME" value="Quantit&#xe0; residua"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Double.class"/>
               </Subbinding>
             </BindingProperty>

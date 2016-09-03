@@ -91,12 +91,10 @@ public class ItemView extends javax.swing.JFrame {
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("jdbc:derby:stockDB;create=truePU").createEntityManager();
         itemQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT i FROM Item i");
         itemList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(itemQuery.getResultList());
-        categoryQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT c FROM Category c");
-        categoryList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : categoryQuery.getResultList();
         measureQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT m FROM Measure m");
-        measureList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : measureQuery.getResultList();
-        categoryQuery1 = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT c FROM Category c");
-        categoryList1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : categoryQuery1.getResultList();
+        measureList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(measureQuery.getResultList());
+        categoryQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT c FROM Category c");
+        categoryList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(categoryQuery.getResultList());
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
@@ -182,7 +180,7 @@ public class ItemView extends javax.swing.JFrame {
 
         jLabel2.setText("Categoria");
 
-        org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, categoryList1, categoryCB);
+        org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, categoryList, categoryCB);
         bindingGroup.addBinding(jComboBoxBinding);
 
         jLabel3.setText("Un. misura");
@@ -679,21 +677,25 @@ public class ItemView extends javax.swing.JFrame {
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, categoryList, categoryCB);
         bindingGroup.addBinding(jComboBoxBinding);
         bindingGroup.bind();*/
+        categoryList.clear();
+        categoryList.addAll(categoryQuery.getResultList());
     }
 
     public void refreshMeasureComboBox() {
+        /*
         measureList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : measureQuery.getResultList();
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, measureList, measureCB);
         bindingGroup.addBinding(jComboBoxBinding);
         bindingGroup.bind();
+*/
+                measureList.clear();
+        measureList.addAll(measureQuery.getResultList());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> categoryCB;
     private java.util.List<entities.Category> categoryList;
-    private java.util.List<entities.Category> categoryList1;
     private javax.persistence.Query categoryQuery;
-    private javax.persistence.Query categoryQuery1;
     private javax.swing.JTextField descriptionTF;
     private javax.persistence.EntityManager entityManager;
     private javax.swing.JFormattedTextField init_quantityTF;

@@ -63,15 +63,11 @@ public class CategoryListView extends javax.swing.JFrame {
 
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("jdbc:derby:stockDB;create=truePU").createEntityManager();
         categoryQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT c FROM Category c");
-        categoryList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : categoryQuery.getResultList();
+        categoryList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(categoryQuery.getResultList());
         stockoperationQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT s FROM Stockoperation s");
         stockoperationList = stockoperationQuery.getResultList();
         itemQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT i FROM Item i");
         itemList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(itemQuery.getResultList());
-        itemQuery1 = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT i FROM Item i");
-        itemList1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : itemQuery1.getResultList();
-        itemQuery2 = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT i FROM Item i");
-        itemList2 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(itemQuery2.getResultList());
         jPanel1 = new javax.swing.JPanel();
         categoryCB = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
@@ -107,6 +103,15 @@ public class CategoryListView extends javax.swing.JFrame {
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, categoryList, categoryCB);
         bindingGroup.addBinding(jComboBoxBinding);
 
+        categoryCB.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                categoryCBAncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
         categoryCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 categoryCBActionPerformed(evt);
@@ -162,7 +167,7 @@ public class CategoryListView extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, itemList2, jTable1);
+        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, itemList, jTable1);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${id}"));
         columnBinding.setColumnName("Id");
         columnBinding.setColumnClass(Long.class);
@@ -173,13 +178,13 @@ public class CategoryListView extends javax.swing.JFrame {
         columnBinding.setColumnName("U.M.");
         columnBinding.setColumnClass(entities.Measure.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${init_quantity}"));
-        columnBinding.setColumnName("Quantità Iniziale");
+        columnBinding.setColumnName("Quantità iniziale");
         columnBinding.setColumnClass(Double.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${min_quantity}"));
-        columnBinding.setColumnName("Quantità Min");
+        columnBinding.setColumnName("Quantità minima");
         columnBinding.setColumnClass(Double.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${rem_quantity}"));
-        columnBinding.setColumnName("Quantità Residua");
+        columnBinding.setColumnName("Quantità residua");
         columnBinding.setColumnClass(Double.class);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
@@ -218,10 +223,10 @@ public class CategoryListView extends javax.swing.JFrame {
         Category c = (Category) categoryCB.getSelectedItem();
 
         if (c != null) {
-
+            
             setTableFilter(c);
             refreshTable();
-            hideIdColumn();
+           // hideIdColumn();
         }
 
     }//GEN-LAST:event_categoryCBActionPerformed
@@ -235,6 +240,10 @@ public class CategoryListView extends javax.swing.JFrame {
         this._instance = null;
         this.setVisible(false);
     }//GEN-LAST:event_formWindowClosing
+
+    private void categoryCBAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_categoryCBAncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_categoryCBAncestorAdded
 
     /**
      * @param args the command line arguments
@@ -273,12 +282,12 @@ public class CategoryListView extends javax.swing.JFrame {
     }
 
     private void refreshTable() {
-        itemList2.clear();
-        itemList2.addAll(itemQuery2.getResultList());
+        itemList.clear();
+        itemList.addAll(itemQuery.getResultList());
     }
 
     private void setTableFilter(Category c) {
-        itemQuery2 = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT i FROM Item i WHERE i.category=:category").setParameter("category", c);
+        itemQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT i FROM Item i WHERE i.category=:category").setParameter("category", c);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -287,11 +296,7 @@ public class CategoryListView extends javax.swing.JFrame {
     private javax.persistence.Query categoryQuery;
     private javax.persistence.EntityManager entityManager;
     private java.util.List<entities.Item> itemList;
-    private java.util.List<entities.Item> itemList1;
-    private java.util.List<entities.Item> itemList2;
     private javax.persistence.Query itemQuery;
-    private javax.persistence.Query itemQuery1;
-    private javax.persistence.Query itemQuery2;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

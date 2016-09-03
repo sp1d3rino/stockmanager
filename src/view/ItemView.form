@@ -26,24 +26,6 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;entities.Item&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.persistence.Query" name="categoryQuery">
-      <Properties>
-        <Property name="query" type="java.lang.String" value="SELECT c FROM Category c"/>
-        <Property name="entityManager" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$EMProperty$EntityManagerEditor">
-          <ComponentRef name="entityManager"/>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="java.util.List" name="categoryList">
-      <Properties>
-        <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
-          <ComponentRef name="categoryQuery"/>
-        </Property>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;entities.Category&gt;"/>
-      </AuxValues>
-    </Component>
     <Component class="javax.persistence.Query" name="measureQuery">
       <Properties>
         <Property name="query" type="java.lang.String" value="SELECT m FROM Measure m"/>
@@ -57,12 +39,13 @@
         <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
           <ComponentRef name="measureQuery"/>
         </Property>
+        <Property name="observable" type="boolean" value="true"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;entities.Measure&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.persistence.Query" name="categoryQuery1">
+    <Component class="javax.persistence.Query" name="categoryQuery">
       <Properties>
         <Property name="query" type="java.lang.String" value="SELECT c FROM Category c"/>
         <Property name="entityManager" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$EMProperty$EntityManagerEditor">
@@ -70,11 +53,12 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="java.util.List" name="categoryList1">
+    <Component class="java.util.List" name="categoryList">
       <Properties>
         <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
-          <ComponentRef name="categoryQuery1"/>
+          <ComponentRef name="categoryQuery"/>
         </Property>
+        <Property name="observable" type="boolean" value="true"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;entities.Category&gt;"/>
@@ -364,7 +348,7 @@
         </Component>
         <Component class="javax.swing.JComboBox" name="categoryCB">
           <BindingProperties>
-            <BindingProperty name="elements" source="categoryList1" target="categoryCB" targetPath="elements" updateStrategy="0" immediately="false"/>
+            <BindingProperty name="elements" source="categoryList" target="categoryCB" targetPath="elements" updateStrategy="0" immediately="false"/>
           </BindingProperties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>

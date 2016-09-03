@@ -117,7 +117,7 @@ public class MainView extends javax.swing.JFrame {
         stockoperationQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT s FROM Stockoperation s");
         stockoperationList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(stockoperationQuery.getResultList());
         itemQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT i FROM Item i");
-        itemList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : itemQuery.getResultList();
+        itemList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(itemQuery.getResultList());
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
@@ -623,7 +623,7 @@ public class MainView extends javax.swing.JFrame {
         double rq = remain;
         if (item.getMin_quantity() > rq) {
             remainqTF.setBackground(Color.red);
-            remainqTF.setToolTipText("Attenzione, valore al di sotto della quantità minima!");
+            remainqTF.setToolTipText("Attenzione, l'articolo è in esaurimento scorte!");
         } else {
             remainqTF.setBackground(initialqTF.getBackground());
             remainqTF.setToolTipText(null);
@@ -704,10 +704,8 @@ public class MainView extends javax.swing.JFrame {
 
     public void refreshItemCombo(Item item, boolean fromItems) {
 
-        itemList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : itemQuery.getResultList();
-        org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, itemList, itemCB);
-        bindingGroup.addBinding(jComboBoxBinding);
-        bindingGroup.bind();
+        itemList.clear();
+        itemList.addAll(itemQuery.getResultList());
 
         insertNewTrack(item, fromItems);
 
@@ -986,30 +984,7 @@ public class MainView extends javax.swing.JFrame {
         System.out.println("view.MainView.refreshJTable()");
         stockoperationList.clear();
         stockoperationList.addAll( stockoperationQuery.getResultList());
-        //stockoperationList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : stockoperationQuery.getResultList();
-        /*org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, stockoperationList, jTable1);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${id}"));
-        columnBinding.setColumnName("Id");
-        columnBinding.setColumnClass(Long.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${item}"));
-        columnBinding.setColumnName("Articolo");
-        columnBinding.setColumnClass(entities.Item.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${loaded_quantity}"));
-        columnBinding.setColumnName("Carico");
-        columnBinding.setColumnClass(Double.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${downloaded_quantity}"));
-        columnBinding.setColumnName("Scarico");
-        columnBinding.setColumnClass(Double.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${timestamp}"));
-        columnBinding.setColumnName("Data");
-        columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${notes}"));
-        columnBinding.setColumnName("Note");
-        columnBinding.setColumnClass(String.class);
-        bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();*/
-        
-     //   setTableLayout();
+
         setChartLayout();
         calculateRemainQuantity((Item) itemCB.getSelectedItem());
 
