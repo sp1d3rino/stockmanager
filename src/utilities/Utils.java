@@ -89,6 +89,13 @@ public class Utils {
                 JOptionPane.ERROR_MESSAGE);
 
     }
+    
+        public void showMessageDialog(Component c, String msg, String title) {
+        JOptionPane.showMessageDialog(c, msg,
+                title,
+                JOptionPane.INFORMATION_MESSAGE);
+
+    }
 
     public int showYesNoDialog(Component c, String msg, String title) {
         return JOptionPane.showConfirmDialog(c, msg, title, JOptionPane.YES_NO_OPTION);

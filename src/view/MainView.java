@@ -20,6 +20,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.CellEditor;
+import utilities.ItemImportManager;
 
 import utilities.Utils;
 
@@ -66,12 +67,7 @@ public class MainView extends javax.swing.JFrame {
         _instance = this;
         loadSettings();
         setTableLayout();
-        updateVersion();
 
-    }
-
-    private void updateVersion() {
-        System.out.println(MainView.class.getPackage().getImplementationVersion());
     }
 
     public static MainView getInstance() {
@@ -163,6 +159,8 @@ public class MainView extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
         jCheckBoxMenuItem2 = new javax.swing.JCheckBoxMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Lista movimenti articoli");
@@ -482,7 +480,7 @@ public class MainView extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(umLabel3))
                                     .addComponent(notesTF, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(0, 5, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(categoryLabel))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -490,7 +488,7 @@ public class MainView extends javax.swing.JFrame {
                         .addGap(41, 41, 41)
                         .addComponent(jButton5)
                         .addGap(332, 332, 332)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 318, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 313, Short.MAX_VALUE)
                 .addComponent(graphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -570,6 +568,18 @@ public class MainView extends javax.swing.JFrame {
         jMenu2.add(jCheckBoxMenuItem2);
 
         jMenuBar1.add(jMenu2);
+
+        jMenu3.setText("Strumenti");
+
+        jMenuItem2.setText("Importa Articoli da xls");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu3);
 
         setJMenuBar(jMenuBar1);
 
@@ -949,6 +959,11 @@ public class MainView extends javax.swing.JFrame {
         CategoryListView clv = CategoryListView.getInstance();
         clv.setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        ItemImportView iiv = ItemImportView.getIntance();
+        iiv.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
     private double calculateRemainQuantity(Item item) {
 
         //  entityManager.refresh(item);
@@ -1055,8 +1070,10 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

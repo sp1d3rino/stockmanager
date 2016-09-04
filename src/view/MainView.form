@@ -83,6 +83,21 @@
             </MenuItem>
           </SubComponents>
         </Menu>
+        <Menu class="javax.swing.JMenu" name="jMenu3">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Strumenti"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Importa Articoli da xls"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem2ActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
       </SubComponents>
     </Menu>
   </NonVisualComponents>
@@ -354,7 +369,7 @@
                                       </Group>
                                       <Component id="notesTF" alignment="0" min="-2" pref="427" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="5" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -367,7 +382,7 @@
                           <EmptySpace min="-2" pref="332" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="318" max="32767" attributes="0"/>
+                  <EmptySpace pref="313" max="32767" attributes="0"/>
                   <Component id="graphPanel" min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
