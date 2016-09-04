@@ -10,6 +10,8 @@ import entities.Stockoperation;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -78,6 +80,8 @@ public class MainView extends javax.swing.JFrame {
     }
 
     private void loadSettings() {
+        //set app icon 
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/icon4.png")));
 
         /* Quit Confirmation */
         String defaultValue = "true";
@@ -91,13 +95,13 @@ public class MainView extends javax.swing.JFrame {
         /* restate opened windows */
         defaultValue = "false";
         if (Boolean.parseBoolean(menuPrefs.get(ITEM_WINDOW_OPENED_SETTING, defaultValue))) {
-            jButton1ActionPerformed(null);
+            jMenuItem6ActionPerformed(null);
         }
         if (Boolean.parseBoolean(menuPrefs.get(MEASURE_WINDOW_OPENED_SETTING, defaultValue))) {
-            jButton2ActionPerformed(null);
+            jMenuItem7ActionPerformed(null);
         }
         if (Boolean.parseBoolean(menuPrefs.get(CATEGORY_WINDOW_OPENED_SETTING, defaultValue))) {
-            jButton3ActionPerformed(null);
+            jMenuItem8ActionPerformed(null);
         }
 
     }
@@ -120,9 +124,6 @@ public class MainView extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         itemCB = new javax.swing.JComboBox<>();
@@ -159,8 +160,14 @@ public class MainView extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
         jCheckBoxMenuItem2 = new javax.swing.JCheckBoxMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Lista movimenti articoli");
@@ -202,27 +209,6 @@ public class MainView extends javax.swing.JFrame {
         jPanel2.setBackground(java.awt.SystemColor.inactiveCaption);
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jButton1.setText("Configurazione Articoli");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("Configurazione  U.M.");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jButton3.setText("Configurazione Categorie");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
         jButton6.setText("Vista Per Categoria");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -235,28 +221,15 @@ public class MainView extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jButton6)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
-                .addGap(13, 13, 13))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, jButton2, jButton3});
-
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton6))
+                .addComponent(jButton6)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -566,6 +539,31 @@ public class MainView extends javax.swing.JFrame {
         jCheckBoxMenuItem2.setSelected(true);
         jCheckBoxMenuItem2.setText("Conferma la chiusura");
         jMenu2.add(jCheckBoxMenuItem2);
+        jMenu2.add(jSeparator2);
+
+        jMenuItem6.setText("Articoli");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem6);
+
+        jMenuItem7.setText("Unità di misura");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem7);
+
+        jMenuItem8.setText("Categorie");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem8);
 
         jMenuBar1.add(jMenu2);
 
@@ -580,6 +578,23 @@ public class MainView extends javax.swing.JFrame {
         jMenu3.add(jMenuItem2);
 
         jMenuBar1.add(jMenu3);
+
+        jMenu4.setText("?");
+        jMenu4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu4ActionPerformed(evt);
+            }
+        });
+
+        jMenuItem3.setText("Info");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem3);
+
+        jMenuBar1.add(jMenu4);
 
         setJMenuBar(jMenuBar1);
 
@@ -605,25 +620,6 @@ public class MainView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        iv = ItemView.getInstance();
-        iv.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        mv = MeasureView.getInstance();
-        mv.setSize(new Dimension(351, 320));
-        mv.setLocation(this.getSize().width - mv.getSize().width / 2, this.getLocation().y);
-        mv.setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        cv = CategoryView.getInstance();
-        cv.setSize(new Dimension(351, 320));
-        cv.setLocation(this.getSize().width - cv.getSize().width / 2, this.getLocation().y + 340);
-        cv.setVisible(true);
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         insertNewTrack((Item) itemCB.getSelectedItem(), false);
@@ -964,6 +960,35 @@ public class MainView extends javax.swing.JFrame {
         ItemImportView iiv = ItemImportView.getIntance();
         iiv.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        iv = ItemView.getInstance();
+        iv.setVisible(true);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        mv = MeasureView.getInstance();
+        mv.setSize(new Dimension(351, 320));
+        mv.setLocation(this.getSize().width - mv.getSize().width / 2, this.getLocation().y);
+        mv.setVisible(true);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        cv = CategoryView.getInstance();
+        cv.setSize(new Dimension(351, 320));
+        cv.setLocation(this.getSize().width - cv.getSize().width / 2, this.getLocation().y + 340);
+        cv.setVisible(true);
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jMenu4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu4ActionPerformed
+
+    }//GEN-LAST:event_jMenu4ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        InfoView iv = InfoView.getInstance();
+        iv.setLocation(new Point(this.getSize().width/2-iv.getSize().width/2, this.getSize().height/2-iv.getSize().height/2));
+        iv.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
     private double calculateRemainQuantity(Item item) {
 
         //  entityManager.refresh(item);
@@ -1054,9 +1079,6 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> itemCB;
     private java.util.List<entities.Item> itemList;
     private javax.persistence.Query itemQuery;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
@@ -1071,14 +1093,20 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JTable jTable1;
     private javax.swing.JSlider loadSlider;
     private javax.swing.JLabel loadSliderMaxLabel;

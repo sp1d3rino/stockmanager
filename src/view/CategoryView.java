@@ -6,6 +6,7 @@
 package view;
 
 import entities.Category;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -37,6 +38,9 @@ public class CategoryView extends javax.swing.JFrame {
         _instance = this;
         hideIdColumn();
         initAutocomplete();
+                //set app icon 
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/icon4.png")));
+
 
     }
 

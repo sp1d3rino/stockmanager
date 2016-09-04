@@ -8,6 +8,7 @@ package view;
 import entities.Category;
 import entities.Item;
 import entities.Measure;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -37,6 +38,8 @@ public class ItemView extends javax.swing.JFrame {
         initComponents();
         _instance = this;
         hideIdColumn();
+        //set app icon 
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/icon4.png")));
 
         initAutocomplete();
 

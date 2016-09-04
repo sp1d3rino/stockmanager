@@ -1,7 +1,7 @@
 ----------------------------------------------------------------
-Sun Sep 04 03:16:58 GMT+01:00 2016:
-Avvio della versione di Derby The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): istanza a816c00e-0156-f2fc-06e6-000007910c10
-sulla directory di database C:\Users\sp1d3r\Documents\NetBeansProjects\stockmanager\stockDB con caricatore classi sun.misc.Launcher$AppClassLoader@4d7e1886 
+Sun Sep 04 11:47:51 GMT+01:00 2016:
+Avvio della versione di Derby The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): istanza a816c00e-0156-f4cf-c1de-000007982db0
+sulla directory di database C:\Users\sp1d3r\Documents\NetBeansProjects\stockmanager\stockDB con caricatore classi sun.misc.Launcher$AppClassLoader@2f0e140b 
 Caricato da file:/C:/Program%20Files/Java/jdk1.8.0_91/db/lib/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_91-b15

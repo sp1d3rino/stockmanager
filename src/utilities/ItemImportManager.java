@@ -158,7 +158,8 @@ public class ItemImportManager {
             Sheet sheet = workbook.getSheet(0);
 
             int totalRows = sheet.getRows();
-            for (int rCount = 0; rCount < totalRows; rCount++) {
+            //start from 2th row
+            for (int rCount = 1; rCount < totalRows; rCount++) {
 
                 // fill the item
                 ItemFromXls item = new ItemFromXls();

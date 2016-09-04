@@ -5,6 +5,7 @@
  */
 package view;
 
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -25,19 +26,23 @@ public class ItemImportView extends javax.swing.JFrame {
     private BufferedImage image;
     private static ItemImportView _instance;
     private Utils utls = Utils.getInstance();
+
     /**
      * Creates new form ItemImportView
      */
     public ItemImportView() {
         initComponents();
-         _instance = this;
-         FileFilter filter = new FileNameExtensionFilter("Excel","xls");
-         jFileChooser1.setFileFilter(filter);
-          
+        _instance = this;
+        FileFilter filter = new FileNameExtensionFilter("Excel", "xls");
+        jFileChooser1.setFileFilter(filter);
+                //set app icon 
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/icon4.png")));
+
+
     }
-    
-    public static ItemImportView getIntance(){
-            if (_instance == null) {
+
+    public static ItemImportView getIntance() {
+        if (_instance == null) {
             _instance = new ItemImportView();
         }
         return _instance;
@@ -102,22 +107,20 @@ public class ItemImportView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jFileChooser1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFileChooser1ActionPerformed
-         
-      
-        if(evt.getActionCommand().equals("CancelSelection"))
+
+        if (evt.getActionCommand().equals("CancelSelection")) {
             this.setVisible(false);
-        else if(evt.getActionCommand().equals("ApproveSelection")){
+        } else if (evt.getActionCommand().equals("ApproveSelection")) {
             ItemImportManager iim = new ItemImportManager(jFileChooser1.getSelectedFile().getAbsoluteFile().toString());
-          
-            
+
             try {
-                int i =                iim.start();
-                  this.setVisible(false);
-                  utls.showMessageDialog(this, "Sono stati importati n. "+i+" articoli nel database", "Import completato");
+                int i = iim.start();
+                this.setVisible(false);
+                utls.showMessageDialog(this, "Sono stati importati n. " + i + " articoli nel database", "Import completato");
             } catch (Exception ex) {
-               utls.showErrorDialog(this, "Impossibile caricare il file degli articoli. Verificare che \n1) Il formato sia .xls\2) il contenuto è simile a quello in figura", "Errore di importazione");
+                utls.showErrorDialog(this, "Impossibile caricare il file degli articoli. Verificare che: \n1) Il formato sia .xls \n2) il contenuto è simile a quello in figura", "Errore di importazione");
             }
-        } 
+        }
     }//GEN-LAST:event_jFileChooser1ActionPerformed
 
     /**

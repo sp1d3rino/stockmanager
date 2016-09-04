@@ -9,6 +9,7 @@ import entities.Category;
 import entities.Item;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Toolkit;
 import javax.swing.table.TableCellRenderer;
 
 /**
@@ -29,6 +30,8 @@ public class CategoryListView extends javax.swing.JFrame {
         initComponents();
         _instance = this;
         hideIdColumn();
+        //set app icon 
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/icon4.png")));
 
     }
     
