@@ -334,6 +334,8 @@ public class CategoryView extends javax.swing.JFrame {
         ItemView iv = ItemView.getInstance();
 
         iv.refreshCategoryComboBox();
+        MainView mv= MainView.getInstance();
+        mv.refreshCategoryCombo();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private boolean checkIfExists(String desc) {

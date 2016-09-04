@@ -223,6 +223,7 @@ public class ItemImportManager {
             
             MainView mv = MainView.getInstance();
             mv.refreshItemCombo(null, false);
+            mv.refreshCategoryCombo();
         } catch (Exception e) {
             throw e;
 
